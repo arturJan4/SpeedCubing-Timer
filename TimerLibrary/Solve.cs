@@ -8,7 +8,7 @@ namespace TimerLibrary
 {
     public class Solve
     {
-        public double SolveTime { get; set; }
+        public long SolveTime { get; set; }
         public string Scramble { get;}
         public bool IsDNF { get; set; }
         public CubeType TypeOfCube { get; }
@@ -16,7 +16,7 @@ namespace TimerLibrary
         {
             // TODO - solve compatibility and scalability issues
             Scramble = (new Scramble(new ThreeByThreeScramble())).Representation;
-            SolveTime = 0.0;
+            SolveTime = 0;
             IsDNF = false;
             TypeOfCube = cubeType;
         }

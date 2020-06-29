@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,18 +23,34 @@ namespace TimerLibrary
                 return SingletonInstance;
             }
         }
-        public long TimeVal { get; set; }
+        private Boolean isEnable = false;
+        private Stopwatch stopwatch = new Stopwatch();
         public void Tick()
         {
-            TimeVal++;
+            //TODO
+            /*
+            if (isEnable)
+                TimeVal += 10;
+            */   
         }
         public void Reset()
         {
-            TimeVal = 0;
+            isEnable = false;
+            stopwatch.Reset();
         }
-        public long GetTime()
+        public void Enable()
         {
-            return TimeVal;
+            isEnable = true;
+            stopwatch.Start();
+        }
+        public void Disable()
+        {
+            isEnable = false;
+            stopwatch.Stop();
+        }
+        public TimeSpan GetTime()
+        {
+            return stopwatch.Elapsed;
         }
     }
 }

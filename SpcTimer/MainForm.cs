@@ -27,13 +27,19 @@ namespace SpcTimer
         {
             this.controller = controller;
         }
-        public string Hours
+        public string ClockTime
         {
-            get { return HoursLabel.Text; }
-            set { this.HoursLabel.Text = value; }
+            get { return ClockLabel.Text; }
+            set { this.ClockLabel.Text = value; }
         }
-        private void mainWinformsTimer_Tick(object sender, EventArgs e)
+
+        public void TimerInteract()
         {
+            controller.startStopTimer();
+        }
+
+        private void mainWinformsTimer_Tick(object sender, EventArgs e)
+        {   
             controller.Update();
         }
 
@@ -41,6 +47,28 @@ namespace SpcTimer
         {
             TimerClass.Instance.Reset();
         }
+
+        private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == ' ')
+            {
+                if (this.ActiveControl is Button)
+                {
+                    var button = this.ActiveControl;
+                    button.Enabled = false;
+                    controller.startStopTimer();
+                    Application.DoEvents();
+                    button.Enabled = true;
+                    button.Focus();
+                }else
+                {
+                    controller.startStopTimer();
+                }
+            }
+            
+        }
+
+        // TODO - change to up/release
 
     }
 }

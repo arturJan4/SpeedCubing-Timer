@@ -9,7 +9,7 @@ namespace TimerLibrary
     public interface IViewInterface
     {
         void SetController(Controller controller);
-        string Hours { get; set; }
-
+        void TimerInteract();
+        String ClockTime { get; set; }
     }
 }

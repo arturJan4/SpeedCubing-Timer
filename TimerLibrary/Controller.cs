@@ -41,6 +41,7 @@ namespace TimerLibrary
             {
                 case State.WAIT:
                     TimerClass.Instance.Reset();
+                    TimerClass.Instance.Enable();
                     //TODO - other cubes
                     tempSolve = new Solve(CubeType.THREE);
                     //TODO - db connection
@@ -48,11 +49,13 @@ namespace TimerLibrary
                     break;
                 case State.INSPECT:
                     TimerClass.Instance.Reset();
+                    TimerClass.Instance.Enable();
                     state = State.SOLVE;
                     break;
                 case State.SOLVE:
+                    TimerClass.Instance.Disable();
                     state = State.WAIT;
-                    tempSolve.SolveTime = GetTime();
+                    tempSolve.SolveTime = (long)GetTime().TotalMilliseconds;
                     break;
                 default:
                     break;
@@ -62,10 +65,11 @@ namespace TimerLibrary
         public void Update()
         {
             TimerClass.Instance.Tick();
-            long currentTime = GetTime();
+            TimeSpan currentTime = GetTime();
+            
             if(state == State.INSPECT)
             {
-                if(GetTime() > inspectionTime)
+                if(currentTime.TotalSeconds > inspectionTime)
                 {
                     state = State.WAIT;
                     tempSolve.IsDNF = true;
@@ -73,7 +77,7 @@ namespace TimerLibrary
                 }
             }
             // TODO check if inspect over
-            view.Hours = currentTime.ToString();
+            view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
         }
 
         public void generateSolve()
@@ -85,7 +89,7 @@ namespace TimerLibrary
         {
             return tempSolve.Scramble;
         }
-        public long GetTime()
+        public TimeSpan GetTime()
         {
             return TimerClass.Instance.GetTime();
         }
