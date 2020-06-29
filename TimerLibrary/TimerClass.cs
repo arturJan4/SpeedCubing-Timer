@@ -24,6 +24,7 @@ namespace TimerLibrary
             }
         }
         private Boolean isEnable = false;
+        // TODO - check whether Stopwatch is the best option
         private Stopwatch stopwatch = new Stopwatch();
         public void Tick()
         {

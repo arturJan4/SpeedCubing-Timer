@@ -10,6 +10,8 @@ namespace TimerLibrary
     {
         void SetController(Controller controller);
         void TimerInteract();
-        String ClockTime { get; set; }
+        string ClockTime { get; set; }
+        string Scramble { get; set; }
+        string DNF { get; set; }
     }
 }

@@ -25,16 +25,21 @@ namespace TimerLibrary
          */
         private State state;
         public Solve tempSolve;
+        //TODO - solves awaiting for save (queue?)
+        private Solve awaitingSolve;
         private IViewInterface view; 
         //TODO - make variable
-        const long inspectionTime = 15000; // in ms
+        const long inspectionTime = 3; // in s
 
         public Controller(IViewInterface view)
         {
             this.view = view;
             state = State.WAIT;
+            tempSolve = new Solve(CubeType.THREE);
+            view.Scramble = tempSolve.Scramble;
+            view.DNF = tempSolve.IsDNF ? "DNF" : " ";
         }
-        // tak ogólne jak można
+        // keep as general as possible (controller pattern)
         public void startStopTimer()
         {
             switch (state)
@@ -42,9 +47,8 @@ namespace TimerLibrary
                 case State.WAIT:
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
-                    //TODO - other cubes
-                    tempSolve = new Solve(CubeType.THREE);
                     //TODO - db connection
+                    //TODO - text connection
                     state = State.INSPECT;
                     break;
                 case State.INSPECT:
@@ -56,6 +60,10 @@ namespace TimerLibrary
                     TimerClass.Instance.Disable();
                     state = State.WAIT;
                     tempSolve.SolveTime = (long)GetTime().TotalMilliseconds;
+                    //TODO - other cubes
+                    awaitingSolve = tempSolve;
+                    tempSolve = new Solve(CubeType.THREE);
+                    view.Scramble = tempSolve.Scramble;
                     break;
                 default:
                     break;
@@ -76,8 +84,9 @@ namespace TimerLibrary
                     tempSolve.SolveTime = 0;
                 }
             }
-            // TODO check if inspect over
+            // TODO check if inspection is over
             view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
+            view.DNF = tempSolve.IsDNF ? "DNF" : " ";
         }
 
         public void generateSolve()

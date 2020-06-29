@@ -13,6 +13,7 @@ namespace SpcTimer
 {
     public partial class MainForm : Form, IViewInterface
     {
+        // TODO - refactor with events
         Controller controller;
         public MainForm()
         {
@@ -33,6 +34,17 @@ namespace SpcTimer
             set { this.ClockLabel.Text = value; }
         }
 
+        public string Scramble
+        {
+            get { return ScrambleLabel.Text; }
+            set { this.ScrambleLabel.Text = value; }
+        }
+        public string DNF
+        {
+            get { return DNFLabel.Text; }
+            set { this.DNFLabel.Text = value; }
+        }
+
         public void TimerInteract()
         {
             controller.startStopTimer();
@@ -48,6 +60,7 @@ namespace SpcTimer
             TimerClass.Instance.Reset();
         }
 
+        // TODO - change to up/release
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
         {
             if(e.KeyChar == ' ')
@@ -60,15 +73,13 @@ namespace SpcTimer
                     Application.DoEvents();
                     button.Enabled = true;
                     button.Focus();
-                }else
+                }
+                else
                 {
                     controller.startStopTimer();
                 }
             }
             
         }
-
-        // TODO - change to up/release
-
     }
 }

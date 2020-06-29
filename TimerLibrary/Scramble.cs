@@ -17,6 +17,7 @@ namespace TimerLibrary
         {
             GenerateInterface = strategy;
             Moves = strategy.GenerateScramble();
+
             StringBuilder builder = new StringBuilder();
             for(int i = 0; i < Moves.Count; ++i)
             {
@@ -29,7 +30,6 @@ namespace TimerLibrary
                     builder.Append($"{Moves[i].ToStringRepresentation()} ");
                 }
             }
-            
             Representation = builder.ToString();
         }
     }
