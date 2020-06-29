@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
+    /// <summary>
+    /// Main Controller class, arbitrates communication between
+    /// Views and Models
+    /// </summary>
     public class Controller
     {
         enum State
@@ -27,7 +31,8 @@ namespace TimerLibrary
         public Solve tempSolve;
         //TODO - solves awaiting for save (queue?)
         private Solve awaitingSolve;
-        private IViewInterface view; 
+        private IViewInterface view;
+        private List<Solve> solves;
         //TODO - make variable
         const long inspectionTime = 3; // in s
 
@@ -38,6 +43,9 @@ namespace TimerLibrary
             tempSolve = new Solve(CubeType.THREE);
             view.Scramble = tempSolve.Scramble;
             view.DNF = tempSolve.IsDNF ? "DNF" : " ";
+            
+            // TODO - load solves from file
+
         }
         // keep as general as possible (controller pattern)
         public void startStopTimer()
@@ -49,6 +57,11 @@ namespace TimerLibrary
                     TimerClass.Instance.Enable();
                     //TODO - db connection
                     //TODO - text connection
+                    //TODO - save in background / edit last element (delete/add)
+                    if(awaitingSolve != null) // don't save first solve
+                    {
+                        SaveSolve(awaitingSolve);
+                    }
                     state = State.INSPECT;
                     break;
                 case State.INSPECT:
@@ -62,7 +75,7 @@ namespace TimerLibrary
                     tempSolve.SolveTime = (long)GetTime().TotalMilliseconds;
                     //TODO - other cubes
                     awaitingSolve = tempSolve;
-                    tempSolve = new Solve(CubeType.THREE);
+                    tempSolve = GenerateSolve();
                     view.Scramble = tempSolve.Scramble;
                     break;
                 default:
@@ -88,11 +101,17 @@ namespace TimerLibrary
             view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
             view.DNF = tempSolve.IsDNF ? "DNF" : " ";
         }
-
-        public void generateSolve()
+        static private void SaveSolve(Solve solve)
+        {
+            foreach(DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
+            {
+                c.SaveSolveToDB(solve);
+            }
+        }
+        public Solve GenerateSolve()
         {
             // TODO new cubeTypes
-            tempSolve = new Solve(CubeType.THREE);
+            return new Solve(CubeType.THREE);
         }
         public string GetScramble()
         {

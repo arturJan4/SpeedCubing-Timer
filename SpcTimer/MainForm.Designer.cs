@@ -55,13 +55,14 @@
             // 
             // ClockLabel
             // 
-            this.ClockLabel.AutoSize = true;
+            this.ClockLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ClockLabel.Font = new System.Drawing.Font("Ebrima", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.ClockLabel.Location = new System.Drawing.Point(193, 63);
+            this.ClockLabel.Location = new System.Drawing.Point(101, 53);
             this.ClockLabel.Name = "ClockLabel";
-            this.ClockLabel.Size = new System.Drawing.Size(104, 47);
+            this.ClockLabel.Size = new System.Drawing.Size(322, 47);
             this.ClockLabel.TabIndex = 2;
             this.ClockLabel.Text = "Clock";
+            this.ClockLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // DNFLabel
             // 
