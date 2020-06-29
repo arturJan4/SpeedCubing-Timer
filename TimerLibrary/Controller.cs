@@ -25,14 +25,14 @@ namespace TimerLibrary
          */
         private State state;
         public Solve tempSolve;
+        private IViewInterface view; 
         //TODO - make variable
         const long inspectionTime = 15000; // in ms
 
-        public Controller()
+        public Controller(IViewInterface view)
         {
+            this.view = view;
             state = State.WAIT;
-            // TODO - other cubes compatibility
-            tempSolve = new Solve(CubeType.THREE);
         }
         // tak ogólne jak można
         public void startStopTimer()
@@ -61,6 +61,8 @@ namespace TimerLibrary
 
         public void Update()
         {
+            TimerClass.Instance.Tick();
+            long currentTime = GetTime();
             if(state == State.INSPECT)
             {
                 if(GetTime() > inspectionTime)
@@ -71,6 +73,7 @@ namespace TimerLibrary
                 }
             }
             // TODO check if inspect over
+            view.Hours = currentTime.ToString();
         }
 
         public void generateSolve()

@@ -11,23 +11,29 @@ using TimerLibrary;
 
 namespace SpcTimer
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form, IViewInterface
     {
-        Controller controller = new Controller();
-        public Form1()
+        Controller controller;
+        public MainForm()
         {
             InitializeComponent();
-            
+            controller = new Controller(this);
             /*
             Scramble newScramble = new Scramble(new ThreeByThreeScramble());
             LabelTest.Text = newScramble.Representation;
             */
         }
-
+        public void SetController(Controller controller)
+        {
+            this.controller = controller;
+        }
+        public string Hours
+        {
+            get { return HoursLabel.Text; }
+            set { this.HoursLabel.Text = value; }
+        }
         private void mainWinformsTimer_Tick(object sender, EventArgs e)
         {
-            TimerClass.Instance.Tick();
-            UpdateFields();
             controller.Update();
         }
 
@@ -36,9 +42,5 @@ namespace SpcTimer
             TimerClass.Instance.Reset();
         }
 
-        private void UpdateFields()
-        {
-            LabelTest.Text = controller.GetTime().ToString();
-        }
     }
 }
