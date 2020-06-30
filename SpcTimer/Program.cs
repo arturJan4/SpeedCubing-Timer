@@ -16,6 +16,8 @@ namespace SpcTimer
         //TODO proper setter and getters and encapsulation
         //TODO more tests
         //TODO mock tests?
+        //TODO scale form
+        //TODO visualizer
         static void Main()
         {
             Application.EnableVisualStyles();

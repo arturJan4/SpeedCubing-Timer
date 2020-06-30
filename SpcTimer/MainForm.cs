@@ -116,5 +116,32 @@ namespace SpcTimer
             StatisticsListBox.Items.Add(item);
         }
 
+        private void CubeTypeComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            switch (CubeTypeComboBox.SelectedItem.ToString().Trim())
+            {
+                case "2x2 Cube":
+                    controller.ChangeCubeType(CubeType.TWO);
+                    break;
+
+                case "3x3 Cube":
+                    controller.ChangeCubeType(CubeType.THREE);
+                    break;
+                
+                case "4x4 Cube":
+                    controller.ChangeCubeType(CubeType.FOUR);
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Unknown ComboBox option");
+                    break;
+            }
+            ClockLabel.Focus();
+        }
+
+        public void CubeTypeChange()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

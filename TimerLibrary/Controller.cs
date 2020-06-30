@@ -42,10 +42,11 @@ namespace TimerLibrary
         {
             this.view = view;
             state = State.WAIT;
-            tempSolve = new Solve(CubeType.THREE);
-            view.Scramble = tempSolve.Scramble;
             view.DNF = " ";
             currentCubeType = CubeType.THREE;
+            tempSolve = GenerateSolve();
+            view.Scramble = tempSolve.Scramble;
+
             //load from text file
             Statistics.Initialize();
             Statistics.InitializeViewStatistics(view, 15);
@@ -136,8 +137,7 @@ namespace TimerLibrary
         }
         public Solve GenerateSolve()
         {
-            // TODO new cubeTypes
-            return new Solve(CubeType.THREE);
+            return new Solve(currentCubeType);
         }
         public string GetScramble()
         {
@@ -150,6 +150,12 @@ namespace TimerLibrary
         public void ChangeCubeType(CubeType newCubeType)
         {
             currentCubeType = newCubeType;
+            state = State.WAIT;
+            view.SetClockColor(Color.White);
+            view.SetBackgroundColor(Color.Black);
+            TimerClass.Instance.Reset();
+            tempSolve = GenerateSolve();
+            view.Scramble = tempSolve.Scramble;
         }
         public bool isSolving()
         {

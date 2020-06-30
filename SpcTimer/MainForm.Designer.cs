@@ -36,6 +36,7 @@
             this.CubeTypeLabel = new System.Windows.Forms.Label();
             this.ScrambleLabel = new System.Windows.Forms.Label();
             this.StatisticsListBox = new System.Windows.Forms.ListBox();
+            this.CubeTypeComboBox = new System.Windows.Forms.ComboBox();
             this.resetButton = new SpcTimer.NonSelectableButton();
             this.SuspendLayout();
             // 
@@ -112,10 +113,24 @@
             this.StatisticsListBox.TabIndex = 7;
             this.StatisticsListBox.TabStop = false;
             // 
+            // CubeTypeComboBox
+            // 
+            this.CubeTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CubeTypeComboBox.FormattingEnabled = true;
+            this.CubeTypeComboBox.Items.AddRange(new object[] {
+            "2x2 Cube",
+            "3x3 Cube",
+            "4x4 Cube"});
+            this.CubeTypeComboBox.Location = new System.Drawing.Point(317, 279);
+            this.CubeTypeComboBox.Name = "CubeTypeComboBox";
+            this.CubeTypeComboBox.Size = new System.Drawing.Size(121, 21);
+            this.CubeTypeComboBox.TabIndex = 8;
+            this.CubeTypeComboBox.SelectionChangeCommitted += new System.EventHandler(this.CubeTypeComboBox_SelectionChangeCommitted);
+            // 
             // resetButton
             // 
             this.resetButton.ForeColor = System.Drawing.Color.White;
-            this.resetButton.Location = new System.Drawing.Point(317, 164);
+            this.resetButton.Location = new System.Drawing.Point(317, 182);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(75, 23);
             this.resetButton.TabIndex = 6;
@@ -128,6 +143,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(523, 503);
+            this.Controls.Add(this.CubeTypeComboBox);
             this.Controls.Add(this.StatisticsListBox);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.ScrambleLabel);
@@ -154,6 +170,7 @@
         private System.Windows.Forms.Label ScrambleLabel;
         private NonSelectableButton resetButton;
         private System.Windows.Forms.ListBox StatisticsListBox;
+        private System.Windows.Forms.ComboBox CubeTypeComboBox;
     }
 }
 

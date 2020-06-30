@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimerLibrary
+namespace TimerLibrary.Scrambles
 {
     /// <summary>
     /// Scramble class, generating sequence of
@@ -28,7 +28,6 @@ namespace TimerLibrary
         /// for 3x3: R2 F U D U' L L2 R L' R U D F2 L D' U L2 R F' L
         /// </example>
         public string Representation { get; }
-        // TODO - add 2x2 and 4x4 scramble strategy
         /// <summary>
         /// Generates sequence of moves,
         /// variety depending on passed strategy.

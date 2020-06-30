@@ -47,6 +47,7 @@
     <Compile Include="EnumerationsAgg.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="DataConnection\IDataConnect.cs" />
+    <Compile Include="Scramble\FourByFourScramble.cs" />
     <Compile Include="Scramble\IGenerateScrambleInterface.cs" />
     <Compile Include="IViewInterface.cs" />
     <Compile Include="Models\Move.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="DataConnection\TextConnect.cs" />
     <Compile Include="DataConnection\TextConnectorExtension.cs" />
     <Compile Include="Scramble\ThreeByThreeScramble.cs" />
+    <Compile Include="Scramble\TwoByTwoScramble.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="TimerClass.cs" />
   </ItemGroup>

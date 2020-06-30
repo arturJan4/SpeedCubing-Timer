@@ -55,6 +55,9 @@
     <Compile Include="NonSelectableButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="NonSelectableComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">

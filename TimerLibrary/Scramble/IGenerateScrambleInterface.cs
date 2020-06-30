@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimerLibrary
+namespace TimerLibrary.Scrambles
 {
     /// <summary>
     /// Interface for Strategy Pattern implementation

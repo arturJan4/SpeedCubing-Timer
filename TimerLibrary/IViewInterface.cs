@@ -21,6 +21,7 @@ namespace TimerLibrary
         /// Does a start/stop action on timer
         /// </summary>
         void TimerInteract();
+        void CubeTypeChange();
         /// <summary>
         /// Current time of inspection/solving in HOURS:MINUTES:SECONDS:CENTISECONDS(1/100th of a second) format.
         /// </summary>
@@ -43,5 +44,7 @@ namespace TimerLibrary
         /// Is the current solve disqualified.
         /// </summary>
         string DNF { get; set; }
+
+
     }
 }
