@@ -34,7 +34,7 @@ namespace TimerLibrary
         private Stopwatch stopwatch = new Stopwatch();
         public void Tick()
         {
-            //TODO
+            //TODO - check whether you need that method
             /*
             if (isEnable)
                 TimeVal += 10;

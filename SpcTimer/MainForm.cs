@@ -23,6 +23,7 @@ namespace SpcTimer
             Scramble newScramble = new Scramble(new ThreeByThreeScramble());
             LabelTest.Text = newScramble.Representation;
             */
+
         }
         public void SetController(Controller controller)
         {
@@ -33,7 +34,6 @@ namespace SpcTimer
             get { return ClockLabel.Text; }
             set { this.ClockLabel.Text = value; }
         }
-
         public string Scramble
         {
             get { return ScrambleLabel.Text; }
@@ -51,19 +51,19 @@ namespace SpcTimer
         }
 
         private void mainWinformsTimer_Tick(object sender, EventArgs e)
-        {   
+        {
             controller.Update();
         }
 
         private void resetButton_Click(object sender, EventArgs e)
         {
-            TimerClass.Instance.Reset();
+            controller.startStopTimer();
         }
 
         // TODO - change to up/release
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar == ' ')
+            if (e.KeyChar == ' ')
             {
                 if (this.ActiveControl is Button)
                 {
@@ -79,7 +79,46 @@ namespace SpcTimer
                     controller.startStopTimer();
                 }
             }
-            
+
+        }
+
+        public void SetClockColor(Color color)
+        {
+            ClockLabel.ForeColor = color;
+        }
+
+        public void SetBackgroundColor(Color color)
+        {
+            MainForm.ActiveForm.BackColor = color;
+        }
+
+        private void resetButton_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        //TODO - statistics box takes over focus and space doesn't work
+        public void DeleteSelectedStatistics()
+        {
+            // TODO check id - delete from DB
+            StatisticsListBox.Items.Remove(StatisticsListBox.SelectedItem);
+        }
+
+        public void DeleteAllStatistics()
+        {
+            StatisticsListBox.Items.Clear();
+        }
+
+        public void DeleteLastStatistics()
+        {
+            if (StatisticsListBox.Items.Count == 0)
+                throw new IndexOutOfRangeException("Can't delete with no elements");
+            StatisticsListBox.Items.RemoveAt(StatisticsListBox.Items.Count - 1);
+        }
+
+        public void AddStatistics(string item)
+        {
+            StatisticsListBox.Items.Add(item);
         }
     }
 }

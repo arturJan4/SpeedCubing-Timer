@@ -12,5 +12,6 @@ namespace TimerLibrary.DataConnection
     public interface IDataConnect
     {
         Solve SaveSolveToDB(Solve solve);
+        List<Solve> LoadSolvesFromDB();
     }
 }

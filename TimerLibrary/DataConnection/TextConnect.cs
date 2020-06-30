@@ -17,6 +17,11 @@ namespace TimerLibrary.DataConnection
         // inspired partly by Tim Corey's tutorial: https://www.youtube.com/watch?v=X_P70uukPrU
         private const string SolvesFile = "Solves.csv";
 
+        public List<Solve> LoadSolvesFromDB()
+        {
+            return SolvesFile.FilePath().LoadFile().ConvertToSolves();
+        }
+
         // TODO - change App.config so that it works on local files independent of the user
         public Solve SaveSolveToDB(Solve solve)
         {
@@ -28,7 +33,7 @@ namespace TimerLibrary.DataConnection
              */
 
             // load to List<Solve> from file
-            List<Solve> solves = SolvesFile.FilePath().LoadFile().ConvertToSolves();
+            List<Solve> solves = LoadSolvesFromDB();
 
             // find the ID
             int currId = 1;

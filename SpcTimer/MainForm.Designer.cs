@@ -35,13 +35,15 @@
             this.DNFLabel = new System.Windows.Forms.Label();
             this.CubeTypeLabel = new System.Windows.Forms.Label();
             this.ScrambleLabel = new System.Windows.Forms.Label();
+            this.StatisticsListBox = new System.Windows.Forms.ListBox();
             this.resetButton = new SpcTimer.NonSelectableButton();
             this.SuspendLayout();
             // 
             // LabelTest
             // 
             this.LabelTest.AutoSize = true;
-            this.LabelTest.Location = new System.Drawing.Point(106, 311);
+            this.LabelTest.ForeColor = System.Drawing.Color.White;
+            this.LabelTest.Location = new System.Drawing.Point(109, 244);
             this.LabelTest.Name = "LabelTest";
             this.LabelTest.Size = new System.Drawing.Size(28, 13);
             this.LabelTest.TabIndex = 0;
@@ -50,13 +52,14 @@
             // mainWinformsTimer
             // 
             this.mainWinformsTimer.Enabled = true;
-            this.mainWinformsTimer.Interval = 30;
+            this.mainWinformsTimer.Interval = 10;
             this.mainWinformsTimer.Tick += new System.EventHandler(this.mainWinformsTimer_Tick);
             // 
             // ClockLabel
             // 
             this.ClockLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ClockLabel.Font = new System.Drawing.Font("Ebrima", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ClockLabel.ForeColor = System.Drawing.Color.White;
             this.ClockLabel.Location = new System.Drawing.Point(101, 53);
             this.ClockLabel.Name = "ClockLabel";
             this.ClockLabel.Size = new System.Drawing.Size(322, 47);
@@ -67,6 +70,7 @@
             // DNFLabel
             // 
             this.DNFLabel.AutoSize = true;
+            this.DNFLabel.ForeColor = System.Drawing.Color.White;
             this.DNFLabel.Location = new System.Drawing.Point(106, 174);
             this.DNFLabel.Name = "DNFLabel";
             this.DNFLabel.Size = new System.Drawing.Size(29, 13);
@@ -76,6 +80,7 @@
             // CubeTypeLabel
             // 
             this.CubeTypeLabel.AutoSize = true;
+            this.CubeTypeLabel.ForeColor = System.Drawing.Color.White;
             this.CubeTypeLabel.Location = new System.Drawing.Point(106, 215);
             this.CubeTypeLabel.Name = "CubeTypeLabel";
             this.CubeTypeLabel.Size = new System.Drawing.Size(59, 13);
@@ -84,16 +89,28 @@
             // 
             // ScrambleLabel
             // 
-            this.ScrambleLabel.AutoSize = true;
-            this.ScrambleLabel.Location = new System.Drawing.Point(106, 254);
+            this.ScrambleLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ScrambleLabel.ForeColor = System.Drawing.Color.White;
+            this.ScrambleLabel.Location = new System.Drawing.Point(109, 117);
             this.ScrambleLabel.Name = "ScrambleLabel";
-            this.ScrambleLabel.Size = new System.Drawing.Size(51, 13);
+            this.ScrambleLabel.Size = new System.Drawing.Size(314, 13);
             this.ScrambleLabel.TabIndex = 5;
             this.ScrambleLabel.Text = "Scramble";
+            this.ScrambleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // StatisticsListBox
+            // 
+            this.StatisticsListBox.FormattingEnabled = true;
+            this.StatisticsListBox.Location = new System.Drawing.Point(12, 266);
+            this.StatisticsListBox.Name = "StatisticsListBox";
+            this.StatisticsListBox.Size = new System.Drawing.Size(190, 225);
+            this.StatisticsListBox.TabIndex = 7;
+            this.StatisticsListBox.TabStop = false;
             // 
             // resetButton
             // 
-            this.resetButton.Location = new System.Drawing.Point(302, 174);
+            this.resetButton.ForeColor = System.Drawing.Color.White;
+            this.resetButton.Location = new System.Drawing.Point(317, 164);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(75, 23);
             this.resetButton.TabIndex = 6;
@@ -104,7 +121,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(523, 503);
+            this.Controls.Add(this.StatisticsListBox);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.ScrambleLabel);
             this.Controls.Add(this.CubeTypeLabel);
@@ -112,7 +131,8 @@
             this.Controls.Add(this.ClockLabel);
             this.Controls.Add(this.LabelTest);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Speedcubing Timer";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -128,6 +148,7 @@
         private System.Windows.Forms.Label CubeTypeLabel;
         private System.Windows.Forms.Label ScrambleLabel;
         private NonSelectableButton resetButton;
+        private System.Windows.Forms.ListBox StatisticsListBox;
     }
 }
 
