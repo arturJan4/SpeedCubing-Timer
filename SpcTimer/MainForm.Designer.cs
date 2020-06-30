@@ -57,8 +57,10 @@
             // 
             // ClockLabel
             // 
+            this.ClockLabel.BackColor = System.Drawing.Color.Transparent;
+            this.ClockLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ClockLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ClockLabel.Font = new System.Drawing.Font("Ebrima", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ClockLabel.Font = new System.Drawing.Font("Ebrima", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ClockLabel.ForeColor = System.Drawing.Color.White;
             this.ClockLabel.Location = new System.Drawing.Point(101, 53);
             this.ClockLabel.Name = "ClockLabel";
@@ -70,10 +72,11 @@
             // DNFLabel
             // 
             this.DNFLabel.AutoSize = true;
+            this.DNFLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.DNFLabel.ForeColor = System.Drawing.Color.White;
-            this.DNFLabel.Location = new System.Drawing.Point(106, 174);
+            this.DNFLabel.Location = new System.Drawing.Point(429, 53);
             this.DNFLabel.Name = "DNFLabel";
-            this.DNFLabel.Size = new System.Drawing.Size(29, 13);
+            this.DNFLabel.Size = new System.Drawing.Size(44, 20);
             this.DNFLabel.TabIndex = 3;
             this.DNFLabel.Text = "DNF";
             // 
@@ -90,20 +93,22 @@
             // ScrambleLabel
             // 
             this.ScrambleLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ScrambleLabel.Font = new System.Drawing.Font("Ebrima", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ScrambleLabel.ForeColor = System.Drawing.Color.White;
             this.ScrambleLabel.Location = new System.Drawing.Point(109, 117);
             this.ScrambleLabel.Name = "ScrambleLabel";
-            this.ScrambleLabel.Size = new System.Drawing.Size(314, 13);
+            this.ScrambleLabel.Size = new System.Drawing.Size(314, 33);
             this.ScrambleLabel.TabIndex = 5;
             this.ScrambleLabel.Text = "Scramble";
             this.ScrambleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // StatisticsListBox
             // 
+            this.StatisticsListBox.Enabled = false;
             this.StatisticsListBox.FormattingEnabled = true;
             this.StatisticsListBox.Location = new System.Drawing.Point(12, 266);
             this.StatisticsListBox.Name = "StatisticsListBox";
-            this.StatisticsListBox.Size = new System.Drawing.Size(190, 225);
+            this.StatisticsListBox.Size = new System.Drawing.Size(123, 225);
             this.StatisticsListBox.TabIndex = 7;
             this.StatisticsListBox.TabStop = false;
             // 

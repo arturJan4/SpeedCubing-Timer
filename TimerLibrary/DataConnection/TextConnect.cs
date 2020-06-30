@@ -41,7 +41,7 @@ namespace TimerLibrary.DataConnection
             {
                 currId = solves.OrderByDescending(x => x.Id).First().Id + 1;
             }
-
+            solve.Id = currId;
             // add new record
             solves.Add(solve);
 

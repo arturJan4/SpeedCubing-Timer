@@ -92,11 +92,6 @@ namespace SpcTimer
             MainForm.ActiveForm.BackColor = color;
         }
 
-        private void resetButton_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         //TODO - statistics box takes over focus and space doesn't work
         public void DeleteSelectedStatistics()
         {
@@ -120,5 +115,6 @@ namespace SpcTimer
         {
             StatisticsListBox.Items.Add(item);
         }
+
     }
 }

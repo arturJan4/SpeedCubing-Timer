@@ -33,8 +33,8 @@ namespace TimerLibrary
         public Solve tempSolve;
         //TODO - solves awaiting for save (queue?)
         private Solve awaitingSolve;
+        private bool saved = false;
         private IViewInterface view;
-        private static List<Solve> solves;
         //TODO - make variable
         const long inspectionTime = 3; // in s
 
@@ -44,32 +44,35 @@ namespace TimerLibrary
             state = State.WAIT;
             tempSolve = new Solve(CubeType.THREE);
             view.Scramble = tempSolve.Scramble;
-            view.DNF = tempSolve.IsDNF ? "DNF" : " ";
-            
+            view.DNF = " ";
             currentCubeType = CubeType.THREE;
-            //TODO - load solves from file
-            LoadSolvesFromTextFile();
-
-            InitializeStatistics();
+            //load from text file
+            Statistics.Initialize();
+            Statistics.InitializeViewStatistics(view, 15);
         }
         // keep as general as possible (controller pattern)
         public void startStopTimer()
         {
             switch (state)
             {
+                // TODO - clear up the logic here
                 case State.WAIT:
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
                     view.SetClockColor(Color.Green);
+                    view.DNF = "";
                     // TODO - color dialog - user picked background
                     view.SetBackgroundColor(Color.DarkGray);
                     //TODO - db connection
                     //TODO - text connection
                     //TODO - save in background / edit last element (delete/add)
-                    if(awaitingSolve != null) // don't save first solve
+                    if(awaitingSolve != null && !saved) // don't save first solve
                     {
+                        saved = true;
                         SaveSolve(awaitingSolve);
+                        Statistics.AddStatistics(view,15,awaitingSolve);
                     }
+                    
                     state = State.INSPECT;
                     break;
                 case State.INSPECT:
@@ -85,7 +88,7 @@ namespace TimerLibrary
                     state = State.WAIT;
                     tempSolve.SolveTime = (long)GetTime().TotalMilliseconds;
                     //TODO - other cubes
-
+                    saved = false;
                     awaitingSolve = tempSolve;
                     tempSolve = GenerateSolve();
                     view.Scramble = tempSolve.Scramble;
@@ -104,24 +107,18 @@ namespace TimerLibrary
                 if(currentTime.TotalSeconds > inspectionTime)
                 {
                     state = State.WAIT;
+                    view.SetClockColor(Color.White);
+                    view.SetBackgroundColor(Color.Black);
                     tempSolve.IsDNF = true;
+                    view.DNF = "DNF";
                     tempSolve.SolveTime = 0;
+                    TimerClass.Instance.Reset();
                 }
             }
             // TODO check if inspection is over
             view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
-            view.DNF = tempSolve.IsDNF ? "DNF" : " ";
         }
-        void InitializeStatistics()
-        {
-            //last 15 solves
-            for(int i = Math.Max(0, solves.Count - 15); i < solves.Count; ++i)
-            {
-                TimeSpan x = TimeSpan.FromMilliseconds(solves[i].SolveTime);
 
-                view.AddStatistics(x.ToString(@"hh\:mm\:ss\:ff"));
-            }
-        }
         static private void SaveSolve(Solve solve)
         {
             foreach(DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
@@ -136,10 +133,6 @@ namespace TimerLibrary
             {
                 SaveSolve(awaitingSolve);
             }
-        }
-        static private void LoadSolvesFromTextFile()
-        {
-            solves = GlobalConfig.ConnectionsList[0].LoadSolvesFromDB();
         }
         public Solve GenerateSolve()
         {
