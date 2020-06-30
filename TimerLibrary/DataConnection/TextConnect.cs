@@ -22,6 +22,30 @@ namespace TimerLibrary.DataConnection
             return SolvesFile.FilePath().LoadFile().ConvertToSolves();
         }
 
+        public List<Solve> SaveSolveListToDb(List<Solve> solveList)
+        {
+            List<Solve> solves = LoadSolvesFromDB();
+            // TODO - saving list to DB
+            /*
+            // find the ID
+            int currId = 1;
+            if (solves.Count > 0)
+            {
+                currId = solves.OrderByDescending(x => x.Id).First().Id + 1;
+            }
+            solve.Id = currId;
+            // add new record
+            solves.Add(solve);
+
+            // convert to list<string>
+            // save to file
+            solves.SaveToSolveFile(SolvesFile);
+
+            return solve;
+            */
+            return solves;
+        }
+
         // TODO - change App.config so that it works on local files independent of the user
         public Solve SaveSolveToDB(Solve solve)
         {

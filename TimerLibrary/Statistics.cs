@@ -29,12 +29,12 @@ namespace TimerLibrary
         {
             solves = GlobalConfig.ConnectionsList[0].LoadSolvesFromDB();
             solves = solves.FindAll(x => (x.TypeOfCube == TypeOfCube));
+            solves = solves.FindAll(x => (x.IsDNF == false));
             // TODO - how to calculate BO if there is DNF?
             //orderedSolves = solves.OrderBy(x => x.SolveTime).ToList();
             Recalculate();
             
         }
-
         private long BestOfCalculate(int howMany)
         {
             if (Count < howMany)
@@ -50,7 +50,6 @@ namespace TimerLibrary
             }
             return (sum - min - max) / (howMany - 2);
         }
-
         public void InitializeViewStatistics(IViewInterface view, int howMany)
         {
             ClearViewStatistics(view);
@@ -60,6 +59,20 @@ namespace TimerLibrary
 
                 view.AddStatistics($"{solves[i].Id}.{x.ToString(@"hh\:mm\:ss\:ff")}");
             }
+            UpdateLabels(view);
+        }
+        public void UpdateLabels(IViewInterface view)
+        {
+            view.BestValue      = (Best == -1)      ? "00:00:00:00" : TimeToString(Best);
+            view.WorstValue     = (Worst == -1)     ? "00:00:00:00" : TimeToString(Worst);
+            view.AverageValue   = (Average == -1)   ? "00:00:00:00" : TimeToString(Average);
+            view.Bo5Value       = (BO5 == -1)       ? "00:00:00:00" : TimeToString(BO5);
+            view.Bo12Value      = (BO12 == -1)      ? "00:00:00:00" : TimeToString(BO12);
+        }
+        private string TimeToString(long time)
+        {
+            TimeSpan currentTime = TimeSpan.FromMilliseconds(time);
+            return currentTime.ToString(@"hh\:mm\:ss\:ff");
         }
         public void ClearViewStatistics(IViewInterface view)
         {
@@ -99,13 +112,17 @@ namespace TimerLibrary
                 BO12 = BestOfCalculate(12);
             }
         }
-
         public void AddStatistics(IViewInterface view, int howMany, Solve solve)
         {
             if (solve.TypeOfCube != TypeOfCube)
                 throw new InvalidOperationException("Tried to add invalid cube type statistic to incorrect table");
 
             solves.Add(solve);
+            if(solves.Count == 1)
+            {
+                Initialize();
+                return;
+            }
 
             Count = solves.Count;
 
@@ -130,7 +147,6 @@ namespace TimerLibrary
                 BO12 = BestOfCalculate(12);
             }
         }
-
         public void ClearStatistics()
         {
             Best = -1;
@@ -140,6 +156,12 @@ namespace TimerLibrary
             BO12 = -1;
             Sum = -1;
             Count = 0;
+        }
+
+        public void DeleteLast()
+        {
+            // TODO CRUD
+            throw new NotImplementedException();
         }
     }
 }

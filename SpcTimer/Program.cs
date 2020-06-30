@@ -19,6 +19,7 @@ namespace SpcTimer
         //TODO scale form
         //TODO visualizer
         //TODO statistics dependant on cubeType
+        //TODO user DNF button
         static void Main()
         {
             Application.EnableVisualStyles();

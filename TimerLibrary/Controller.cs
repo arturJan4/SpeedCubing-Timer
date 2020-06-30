@@ -28,6 +28,7 @@ namespace TimerLibrary
          * Save Solve
          * Update Stats
          */
+        const int HowManyRowsVisible = 30;
         private State state;
         private CubeType currentCubeType;
         public Solve tempSolve;
@@ -36,7 +37,7 @@ namespace TimerLibrary
         private bool saved = false;
         private IViewInterface view;
         //TODO - make variable
-        const long inspectionTime = 3; // in s
+        public int InspectionTime { get; set; }// in s
         List<Statistics> statistics = new List<Statistics>();
 
         public Controller(IViewInterface view)
@@ -97,9 +98,9 @@ namespace TimerLibrary
                         saved = true;
                         SaveSolve(awaitingSolve);
                         //TODO - current/ prev logic planning
-                        GetStatistics(awaitingSolve.TypeOfCube).AddStatistics(view,15,awaitingSolve);
+                        GetStatistics(awaitingSolve.TypeOfCube).AddStatistics(view, HowManyRowsVisible, awaitingSolve);
                     }
-                    GetStatistics(currentCubeType).InitializeViewStatistics(view, 15);
+                    GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
                     state = State.INSPECT;
                     break;
                 case State.INSPECT:
@@ -131,7 +132,7 @@ namespace TimerLibrary
             
             if(state == State.INSPECT)
             {
-                if(currentTime.TotalSeconds > inspectionTime)
+                if(currentTime.TotalSeconds > InspectionTime)
                 {
                     state = State.WAIT;
                     view.SetClockColor(Color.White);
@@ -202,7 +203,7 @@ namespace TimerLibrary
             tempSolve = GenerateSolve();
             view.Scramble = tempSolve.Scramble;
             view.CubeTypeLabelInter = CubeTypeToLabel(newCubeType);
-            GetStatistics(newCubeType).InitializeViewStatistics(view, 15);
+            GetStatistics(newCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
         }
         public bool isSolving()
         {

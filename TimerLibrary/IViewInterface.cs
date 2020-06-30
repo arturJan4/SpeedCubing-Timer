@@ -44,6 +44,14 @@ namespace TimerLibrary
         /// Is the current solve disqualified.
         /// </summary>
         string DNF { get; set; }
+        string BestValue { get; set; }
+        string WorstValue { get; set; }
+        string AverageValue { get; set; }
+        string Bo5Value { get; set; }
+        string Bo12Value { get; set; }
+       
+
+
 
 
     }

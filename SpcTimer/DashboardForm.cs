@@ -20,6 +20,8 @@ namespace SpcTimer
             InitializeComponent();
             controller = new Controller(this);
             KeyPreview = true;
+            controller.InspectionTime = 15;
+
             /*
             Scramble newScramble = new Scramble(new ThreeByThreeScramble());
             LabelTest.Text = newScramble.Representation;
@@ -49,6 +51,33 @@ namespace SpcTimer
         {
             get { return CubeTypeLabel.Text; }
             set { this.CubeTypeLabel.Text = value; }
+        }
+
+        public string BestValue
+        {
+            get { return BestValueLabel.Text; }
+            set { this.BestValueLabel.Text = value; }
+        }
+
+        public string WorstValue
+        {
+            get { return WorstValueLabel.Text; }
+            set { this.WorstValueLabel.Text = value; }
+        }
+        public string AverageValue
+        {
+            get { return AverageValueLabel.Text; }
+            set { this.AverageValueLabel.Text = value; }
+        }
+        public string Bo5Value
+        {
+            get { return Bo5ValueLabel.Text; }
+            set { this.Bo5ValueLabel.Text = value; }
+        }
+        public string Bo12Value
+        {
+            get { return Bo12ValueLabel.Text; }
+            set { this.Bo12ValueLabel.Text = value; }
         }
 
         public void TimerInteract()
@@ -152,39 +181,55 @@ namespace SpcTimer
             {
                 InspectionLabel.Visible = false;
                 controller.startStopTimer();
+                InfoLabel.Text = "Hit space to stop timer";
             }
         }
-
+        //TODO - experiment with InspectionTimeLabel.Enabled 
+        //ref: https://stackoverflow.com/questions/1140250/how-to-remove-the-focus-from-a-textbox-in-winforms
         private void DashboardForm_KeyDown(object sender, KeyEventArgs e)
         {
             if(keyPressed)
             {
+                InspectionTimeLabel.Enabled = false;
                 e.Handled = true;
             }
             else
             {
+                InspectionTimeLabel.Enabled = true;
                 keyPressed = true;
                 if (e.KeyCode == Keys.Space)
                 {
-                    if(controller.isWating())
+                    InspectionTimeLabel.Enabled = false;
+                    if (controller.isWating())
                     {
                         controller.startStopTimer();
                         InspectionLabel.Visible = true;
+                        InfoLabel.Text = "Release space to begin timer";
                     }
 
                     if (controller.isSolving())
                     {
                         controller.startStopTimer();
+                        InfoLabel.Text = "Hold space to begin inspection";
+                        InspectionTimeLabel.Enabled = true;
                     }
                 }
                 
             }
-
+            
         }
 
         private void StartTimerButton_Click_1(object sender, EventArgs e)
         {
             controller.startStopTimer();
+        }
+
+        private void ConfirmInspectionButton_Click(object sender, EventArgs e)
+        {
+            int inspectionTimeValue = 0;
+            //TODO fail parse?
+            int.TryParse(InspectionTimeLabel.Text, out inspectionTimeValue);
+            controller.InspectionTime = inspectionTimeValue;
         }
     }
 }
