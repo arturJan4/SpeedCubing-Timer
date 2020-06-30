@@ -21,11 +21,11 @@ namespace TimerLibrary
         /// Does a start/stop action on timer
         /// </summary>
         void TimerInteract();
-        void CubeTypeChange();
         /// <summary>
         /// Current time of inspection/solving in HOURS:MINUTES:SECONDS:CENTISECONDS(1/100th of a second) format.
         /// </summary>
         string ClockTime { get; set; }
+        string CubeTypeLabelInter { get; set; }
         void SetClockColor(Color color);
         void SetBackgroundColor(Color color);
         

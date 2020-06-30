@@ -48,7 +48,8 @@ namespace TimerLibrary
             bool isDouble = (modifierRand == 1);
             bool isAnticlockwise = (modifierRand == 2);
 
-            return new Move(type, rowsAtOnce, isDouble, isAnticlockwise);
+            uint rowsAtOnceRandom = (uint)rand.Next(1, (int)rowsAtOnce);
+            return new Move(type, rowsAtOnceRandom, isDouble, isAnticlockwise);
         }
         /// <summary>
         /// String representation of a move (as regulated by WCA).

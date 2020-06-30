@@ -44,10 +44,31 @@ namespace TimerLibrary
         public Solve(CubeType cubeType)
         {
             // TODO - solve compatibility and scalability issues
-            Scramble = (new Scramble(new ThreeByThreeScramble())).Representation;
+            Scramble = (new Scramble(CubeTypeToStrategy(cubeType))).Representation;
             SolveTime = 0;
             IsDNF = false;
             TypeOfCube = cubeType;
+        }
+
+        private static IGenerateScrambleInterface CubeTypeToStrategy(CubeType cubeType)
+        {
+            IGenerateScrambleInterface strategy;
+            switch (cubeType)
+            {
+                case CubeType.TWO:
+                    strategy = new TwoByTwoScramble();
+                    break;
+                case CubeType.THREE:
+                    strategy = new ThreeByThreeScramble();
+                    break;
+                case CubeType.FOUR:
+                    strategy = new FourByFourScramble();
+                    break;
+                default:
+                    throw new InvalidOperationException("Unknown cube type");
+                    break;
+            }
+            return strategy;
         }
     }
 }

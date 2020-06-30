@@ -18,6 +18,7 @@ namespace SpcTimer
         //TODO mock tests?
         //TODO scale form
         //TODO visualizer
+        //TODO statistics dependant on cubeType
         static void Main()
         {
             Application.EnableVisualStyles();
@@ -26,7 +27,7 @@ namespace SpcTimer
             // Initialize DB
             TimerLibrary.GlobalConfig.Initialize(false, true);
 
-            Application.Run(new MainForm());
+            Application.Run(new DashboardForm());
 
         }
     }

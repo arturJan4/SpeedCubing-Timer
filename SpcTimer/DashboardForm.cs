@@ -11,14 +11,15 @@ using TimerLibrary;
 
 namespace SpcTimer
 {
-    public partial class MainForm : Form, IViewInterface
+    public partial class DashboardForm : Form, IViewInterface
     {
         // TODO - refactor with events
         Controller controller;
-        public MainForm()
+        public DashboardForm()
         {
             InitializeComponent();
             controller = new Controller(this);
+            KeyPreview = true;
             /*
             Scramble newScramble = new Scramble(new ThreeByThreeScramble());
             LabelTest.Text = newScramble.Representation;
@@ -44,6 +45,11 @@ namespace SpcTimer
             get { return DNFLabel.Text; }
             set { this.DNFLabel.Text = value; }
         }
+        public string CubeTypeLabelInter
+        {
+            get { return CubeTypeLabel.Text; }
+            set { this.CubeTypeLabel.Text = value; }
+        }
 
         public void TimerInteract()
         {
@@ -52,16 +58,12 @@ namespace SpcTimer
 
         private void mainWinformsTimer_Tick(object sender, EventArgs e)
         {
-            controller.Update();
-        }
-
-        private void resetButton_Click(object sender, EventArgs e)
-        {
-            controller.startStopTimer();
+            controller.Update();       
         }
 
         // TODO - change to up/release
-        private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
+        /*
+        private void DashboardForm_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == ' ')
             {
@@ -77,10 +79,12 @@ namespace SpcTimer
                 else
                 {
                     controller.startStopTimer();
+                    Application.DoEvents();
                 }
             }
-
-        }
+           
+        } 
+        */
 
         public void SetClockColor(Color color)
         {
@@ -89,7 +93,7 @@ namespace SpcTimer
 
         public void SetBackgroundColor(Color color)
         {
-            MainForm.ActiveForm.BackColor = color;
+            DashboardForm.ActiveForm.BackColor = color;
         }
 
         //TODO - statistics box takes over focus and space doesn't work
@@ -116,6 +120,7 @@ namespace SpcTimer
             StatisticsListBox.Items.Add(item);
         }
 
+
         private void CubeTypeComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             switch (CubeTypeComboBox.SelectedItem.ToString().Trim())
@@ -127,7 +132,7 @@ namespace SpcTimer
                 case "3x3 Cube":
                     controller.ChangeCubeType(CubeType.THREE);
                     break;
-                
+
                 case "4x4 Cube":
                     controller.ChangeCubeType(CubeType.FOUR);
                     break;
@@ -136,12 +141,50 @@ namespace SpcTimer
                     throw new InvalidOperationException("Unknown ComboBox option");
                     break;
             }
-            ClockLabel.Focus();
         }
 
-        public void CubeTypeChange()
+        private bool keyPressed = false;
+        private void DashboardForm_KeyUp(object sender, KeyEventArgs e)
         {
-            throw new NotImplementedException();
+            keyPressed = false;
+            // at least half a second of inspection time
+            if(controller.isInspecting() && e.KeyCode == Keys.Space && controller.GetTime().TotalMilliseconds > 500)
+            {
+                InspectionLabel.Visible = false;
+                controller.startStopTimer();
+            }
+        }
+
+        private void DashboardForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(keyPressed)
+            {
+                e.Handled = true;
+            }
+            else
+            {
+                keyPressed = true;
+                if (e.KeyCode == Keys.Space)
+                {
+                    if(controller.isWating())
+                    {
+                        controller.startStopTimer();
+                        InspectionLabel.Visible = true;
+                    }
+
+                    if (controller.isSolving())
+                    {
+                        controller.startStopTimer();
+                    }
+                }
+                
+            }
+
+        }
+
+        private void StartTimerButton_Click_1(object sender, EventArgs e)
+        {
+            controller.startStopTimer();
         }
     }
 }

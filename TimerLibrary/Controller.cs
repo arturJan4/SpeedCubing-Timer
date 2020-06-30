@@ -37,6 +37,7 @@ namespace TimerLibrary
         private IViewInterface view;
         //TODO - make variable
         const long inspectionTime = 3; // in s
+        List<Statistics> statistics = new List<Statistics>();
 
         public Controller(IViewInterface view)
         {
@@ -47,9 +48,33 @@ namespace TimerLibrary
             tempSolve = GenerateSolve();
             view.Scramble = tempSolve.Scramble;
 
+            view.CubeTypeLabelInter = ($"{CubeTypeToLabel(currentCubeType)}");
+
             //load from text file
-            Statistics.Initialize();
-            Statistics.InitializeViewStatistics(view, 15);
+            // TODO - strategy? statistics multiple instatances
+            statistics.Add(new Statistics(CubeType.TWO));
+            statistics.Add(new Statistics(CubeType.THREE));
+            statistics.Add(new Statistics(CubeType.FOUR));
+            GetStatistics(currentCubeType).InitializeViewStatistics(view,15);
+        }
+
+        private Statistics GetStatistics(CubeType cubetype)
+        {
+            switch (cubetype)
+            {
+                case CubeType.TWO:
+                    return statistics[0];
+                    break;
+                case CubeType.THREE:
+                    return statistics[1];
+                    break;
+                case CubeType.FOUR:
+                    return statistics[2];
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid cube type");
+                    break;
+            }
         }
         // keep as general as possible (controller pattern)
         public void startStopTimer()
@@ -63,7 +88,7 @@ namespace TimerLibrary
                     view.SetClockColor(Color.Green);
                     view.DNF = "";
                     // TODO - color dialog - user picked background
-                    view.SetBackgroundColor(Color.DarkGray);
+                    view.SetBackgroundColor(Color.FromArgb(30,30,30));
                     //TODO - db connection
                     //TODO - text connection
                     //TODO - save in background / edit last element (delete/add)
@@ -71,9 +96,10 @@ namespace TimerLibrary
                     {
                         saved = true;
                         SaveSolve(awaitingSolve);
-                        Statistics.AddStatistics(view,15,awaitingSolve);
+                        //TODO - current/ prev logic planning
+                        GetStatistics(awaitingSolve.TypeOfCube).AddStatistics(view,15,awaitingSolve);
                     }
-                    
+                    GetStatistics(currentCubeType).InitializeViewStatistics(view, 15);
                     state = State.INSPECT;
                     break;
                 case State.INSPECT:
@@ -83,18 +109,18 @@ namespace TimerLibrary
                     state = State.SOLVE;
                     break;
                 case State.SOLVE:
-                    TimerClass.Instance.Disable();
-                    view.SetClockColor(Color.White);
-                    view.SetBackgroundColor(Color.Black);
-                    state = State.WAIT;
                     tempSolve.SolveTime = (long)GetTime().TotalMilliseconds;
-                    //TODO - other cubes
+                    state = State.WAIT;
+                    TimerClass.Instance.Disable();
                     saved = false;
                     awaitingSolve = tempSolve;
                     tempSolve = GenerateSolve();
                     view.Scramble = tempSolve.Scramble;
+                    view.SetClockColor(Color.White);
+                    view.SetBackgroundColor(Color.Black);
                     break;
                 default:
+                    throw new Exception("wrong state");
                     break;
             }
         }
@@ -118,6 +144,7 @@ namespace TimerLibrary
             }
             // TODO check if inspection is over
             view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
+            
         }
 
         static private void SaveSolve(Solve solve)
@@ -125,6 +152,24 @@ namespace TimerLibrary
             foreach(DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
                 c.SaveSolveToDB(solve);
+            }
+        }
+        static private string CubeTypeToLabel(CubeType cubetype)
+        {
+            switch (cubetype)
+            {
+                case CubeType.TWO:
+                    return "2x2";
+                    break;
+                case CubeType.THREE:
+                    return "3x3";
+                    break;
+                case CubeType.FOUR:
+                    return "4x4";
+                    break;
+                default:
+                    throw new InvalidOperationException("Unknown cube type");
+                    break;
             }
         }
         public void SaveQueued()
@@ -156,6 +201,8 @@ namespace TimerLibrary
             TimerClass.Instance.Reset();
             tempSolve = GenerateSolve();
             view.Scramble = tempSolve.Scramble;
+            view.CubeTypeLabelInter = CubeTypeToLabel(newCubeType);
+            GetStatistics(newCubeType).InitializeViewStatistics(view, 15);
         }
         public bool isSolving()
         {

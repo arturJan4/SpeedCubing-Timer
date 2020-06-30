@@ -6,27 +6,36 @@ using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
-    static class Statistics
+    public class Statistics
     {
-        private static List<Solve> solves = new List<Solve>();
-        //private static List<Solve> orderedSolves = new List<Solve>();
-        public static long Best = -1;
-        public static long Worst = -1;
-        public static long Average = -1;
-        public static long BO5 = -1;
-        public static long BO12 = -1;
-        public static long Sum = -1;
-        public static int Count = 0;
+        // TODO smarter seperation
+        private List<Solve> solves = new List<Solve>();
+        //private List<Solve> orderedSolves = new List<Solve>();
+        public long Best = -1;
+        public long Worst = -1;
+        public long Average = -1;
+        public long BO5 = -1;
+        public long BO12 = -1;
+        public long Sum = -1;
+        public int Count = 0;
+        CubeType TypeOfCube;
 
-        public static void Initialize()
+        public Statistics(CubeType cubetype)
+        {
+            TypeOfCube = cubetype;
+            Initialize();
+        }
+        private void Initialize()
         {
             solves = GlobalConfig.ConnectionsList[0].LoadSolvesFromDB();
+            solves = solves.FindAll(x => (x.TypeOfCube == TypeOfCube));
             // TODO - how to calculate BO if there is DNF?
             //orderedSolves = solves.OrderBy(x => x.SolveTime).ToList();
             Recalculate();
+            
         }
 
-        private static long BestOfCalculate(int howMany)
+        private long BestOfCalculate(int howMany)
         {
             if (Count < howMany)
                 return -1;
@@ -42,8 +51,9 @@ namespace TimerLibrary
             return (sum - min - max) / (howMany - 2);
         }
 
-        public static void InitializeViewStatistics(IViewInterface view, int howMany)
+        public void InitializeViewStatistics(IViewInterface view, int howMany)
         {
+            ClearViewStatistics(view);
             for (int i = Math.Max(0, solves.Count - howMany); i < solves.Count; ++i)
             {
                 TimeSpan x = TimeSpan.FromMilliseconds(solves[i].SolveTime);
@@ -51,11 +61,11 @@ namespace TimerLibrary
                 view.AddStatistics($"{solves[i].Id}.{x.ToString(@"hh\:mm\:ss\:ff")}");
             }
         }
-        public static void ClearViewStatistics(IViewInterface view)
+        public void ClearViewStatistics(IViewInterface view)
         {
             view.DeleteAllStatistics();
         }
-        public static void Recalculate()
+        public void Recalculate()
         {
             if (solves.Count == 0)
                 return;
@@ -90,8 +100,11 @@ namespace TimerLibrary
             }
         }
 
-        public static void AddStatistics(IViewInterface view, int howMany, Solve solve)
+        public void AddStatistics(IViewInterface view, int howMany, Solve solve)
         {
+            if (solve.TypeOfCube != TypeOfCube)
+                throw new InvalidOperationException("Tried to add invalid cube type statistic to incorrect table");
+
             solves.Add(solve);
 
             Count = solves.Count;
@@ -116,13 +129,9 @@ namespace TimerLibrary
             {
                 BO12 = BestOfCalculate(12);
             }
-
-            //TODO delete first, add last
-            ClearViewStatistics(view);
-            InitializeViewStatistics(view, 15);
         }
 
-        public static void ClearStatistics()
+        public void ClearStatistics()
         {
             Best = -1;
             Worst = -1;
