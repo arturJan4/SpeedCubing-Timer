@@ -37,7 +37,7 @@ namespace TimerLibrary
         
         ///List<string> Statistics { get;}
         
-            /// <summary>
+        /// <summary>
         /// String representation of a current scramble.
         /// </summary>
         string Scramble { get; set; }

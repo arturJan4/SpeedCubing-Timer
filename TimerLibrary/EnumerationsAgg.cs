@@ -26,4 +26,5 @@ namespace TimerLibrary
         THREE, //three by three
         FOUR,  //four by four      
     }
+
 }

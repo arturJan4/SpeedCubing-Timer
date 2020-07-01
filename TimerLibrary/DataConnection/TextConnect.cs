@@ -21,7 +21,6 @@ namespace TimerLibrary.DataConnection
         {
             return SolvesFile.FilePath().OverrideFile().LoadFile().ConvertToSolves();
         }
-
         public List<Solve> DeleteById(int id)
         {
             List<Solve> solves = LoadSolvesFromDB();
@@ -30,7 +29,6 @@ namespace TimerLibrary.DataConnection
             SaveSolveListToDb(solves);
             return solves;
         }
-
         public Solve DeleteLast()
         {
             List<Solve> solves = LoadSolvesFromDB();
@@ -38,6 +36,7 @@ namespace TimerLibrary.DataConnection
             {
                 solves.RemoveAt(solves.Count - 1);
             }
+            DeleteAll();
             SaveSolveListToDb(solves);
             if(solves.Any())
             {
@@ -45,12 +44,10 @@ namespace TimerLibrary.DataConnection
             }
             return null;
         }
-
         public List<Solve> LoadSolvesFromDB()
         {
             return SolvesFile.FilePath().LoadFile().ConvertToSolves();
         }
-
         public List<Solve> SaveSolveListToDb(List<Solve> solveList)
         {
             // load to List<Solve> from file

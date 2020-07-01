@@ -15,7 +15,7 @@ namespace TimerLibrary
     /// </summary>
     public class Controller
     {
-        enum State
+        public enum State
         {
             WAIT,
             INSPECT,
@@ -40,7 +40,6 @@ namespace TimerLibrary
         public Solve tempSolve;
         //TODO - solves awaiting for save (queue?)
         private Solve awaitingSolve;
-        private bool saved = false;
         //TODO - make variable
         //TODO - strategy? statistics multiple instatances
         static List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO) , new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR)};
@@ -73,51 +72,60 @@ namespace TimerLibrary
         {
             switch (state)
             {
-                // TODO - clear up the logic here
                 case State.WAIT:
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
 
-                    SoundControl.PlayInspectionStartSound();
-
-                    view.SetBackgroundColor(Color.FromArgb(30, 30, 30));
-                    view.SetClockColor(Color.Green);
-                    view.DNF = "";
-
                     //TODO - db connection
-                    //TODO - text connection
-                    //TODO - save in background / edit last element (delete/add)
-                    if(awaitingSolve != null && !saved) // don't save first solve
+                    if(awaitingSolve != null && awaitingSolve.IsDNF)
                     {
-                        saved = true;
-                        SaveSolve(awaitingSolve);
-                        //TODO - current/ prev logic planning
-                        GetStatistics(awaitingSolve.TypeOfCube).AddStatistics(view, HowManyRowsVisible, awaitingSolve);
+                        DeleteAllStatistics();
+                        SaveSolveList(GetStatistics(awaitingSolve.TypeOfCube).GetSolvesList());
+                        UpdateStatistics();
                     }
-                    GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
-                    state = State.INSPECT;
+
                     break;
                 case State.INSPECT:
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
-                    
+                    break;
+                case State.SOLVE:               
+                    tempSolve.SolveTime = (long)GetTime().TotalMilliseconds; //get time
+                    TimerClass.Instance.Disable();
+
+                    SaveSolve(tempSolve);                                    //save solve
+                    UpdateStatistics();
+
+                    awaitingSolve = tempSolve;                 
+                    tempSolve = GenerateSolve();                             //generate new solve
+                    break;
+                default:
+                    throw new Exception("wrong state");
+                    break;
+            }
+            UIStateChanges();
+            state = GetNextState(state);
+        }
+        public void UIStateChanges()
+        {
+            switch (state)
+            {
+                case State.WAIT:
+                    SoundControl.PlayInspectionStartSound();
+                    view.SetBackgroundColor(Color.FromArgb(30, 30, 30));
+                    view.SetClockColor(Color.Green);
+                    view.DNF = "";
+                    break;
+                case State.INSPECT:
                     view.SetClockColor(Color.Red);
-                    state = State.SOLVE;
                     break;
                 case State.SOLVE:
-                    tempSolve.SolveTime = (long)GetTime().TotalMilliseconds;
-                    state = State.WAIT;
-                    TimerClass.Instance.Disable();
                     SoundControl.PlaySolveEndSound();
-                    saved = false;
-                    awaitingSolve = tempSolve;
-                    tempSolve = GenerateSolve();
                     view.Scramble = tempSolve.Scramble;
                     view.SetClockColor(Color.White);
                     view.SetBackgroundColor(Color.Black);
                     break;
                 default:
-                    throw new Exception("wrong state");
                     break;
             }
         }
@@ -159,6 +167,24 @@ namespace TimerLibrary
             view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
             
         }
+        private static State GetNextState(State state)
+        {
+            switch (state)
+            {
+                case State.WAIT:
+                    return State.INSPECT;
+                    break;
+                case State.INSPECT:
+                    return State.SOLVE;
+                    break;
+                case State.SOLVE:
+                    return State.WAIT;
+                    break;
+                default:
+                    throw new InvalidOperationException("Unknown state");
+                    break;
+            }
+        }
         #endregion
         #region Setters
         static private void SaveSolve(Solve solve)
@@ -166,6 +192,14 @@ namespace TimerLibrary
             foreach(DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
                 c.SaveSolveToDB(solve);
+            }
+
+        }
+        static private void SaveSolveList(List<Solve> solveList)
+        {
+            foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
+            {
+                c.SaveSolveListToDb(solveList);
             }
         }
         public void SaveQueued()
@@ -200,22 +234,32 @@ namespace TimerLibrary
                 view.DNF = "DNF";
             }
         }
-        public static void DeleteAllStatistics()
+        public void DeleteAllStatistics()
         {
             foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
                 c.DeleteAll();
             }
-            statistics = new List<Statistics> { new Statistics(CubeType.TWO), new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR) };
         }
-        public static void DeleteStatisticsById(int id)
+        public void DeleteStatisticsById(int id)
         {
             foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
                 c.DeleteById(id);
             }
-            statistics = new List<Statistics> { new Statistics(CubeType.TWO), new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR) };
         }
+        public void DeleteLast()
+        {
+            foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
+            {
+                c.DeleteLast();
+            }
+        }
+        public void UpdateStatistics()
+        {
+            GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
+        }
+
         #endregion
         #region Getters
         public bool isSolving()
@@ -278,6 +322,7 @@ namespace TimerLibrary
                     break;
             }
         }
+        #endregion
     }
-    #endregion
+
 }

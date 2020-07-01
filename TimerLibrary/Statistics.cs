@@ -33,12 +33,12 @@ namespace TimerLibrary
             // TODO - how to calculate BO if there is DNF?
             //orderedSolves = solves.OrderBy(x => x.SolveTime).ToList();
             Recalculate();
-            
         }
         
         #region Output
         public void InitializeViewStatistics(IViewInterface view, int howMany)
         {
+            Initialize();
             view.ClearStatisticsBox();
             for (int i = Math.Max(0, solves.Count - howMany); i < solves.Count; ++i)
             {
@@ -56,13 +56,12 @@ namespace TimerLibrary
             view.Bo5Value       = (BO5 == -1)       ? "00:00:00:00" : TimeToString(BO5);
             view.Bo12Value      = (BO12 == -1)      ? "00:00:00:00" : TimeToString(BO12);
         }
-       
         private string TimeToString(long time)
         {
             TimeSpan currentTime = TimeSpan.FromMilliseconds(time);
             return currentTime.ToString(@"hh\:mm\:ss\:ff");
         }
-       
+     
         #endregion
         #region Calculators
         public void Recalculate()
@@ -131,8 +130,7 @@ namespace TimerLibrary
             if (solve.TypeOfCube != TypeOfCube)
                 throw new InvalidOperationException("Tried to add invalid cube type statistic to incorrect table");
 
-            solves.Add(solve);
-            if (solves.Count == 1)
+            if (solve.IsDNF || solves.Count == 0)
             {
                 Initialize();
                 return;
@@ -140,12 +138,9 @@ namespace TimerLibrary
 
             Count = solves.Count;
 
-            if (!solve.IsDNF)
-            {
                 Sum += solve.SolveTime;
                 Best = Math.Min(solve.SolveTime, Best);
                 Worst = Math.Max(solve.SolveTime, Worst);
-            }
 
             Average = Sum / Count;
 
@@ -161,14 +156,10 @@ namespace TimerLibrary
                 BO12 = BestOfCalculate(12);
             }
         }
-        public static void ReplaceLast(Solve solve)
-        {
-
-        }
-        public static void DeleteLast()
-        {
-            
-        }
         #endregion
+        public List<Solve> GetSolvesList()
+        {
+            return solves;
+    }
     }  
 }

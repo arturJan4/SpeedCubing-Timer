@@ -13,7 +13,6 @@ namespace SpcTimer
 {
     public partial class DashboardForm : Form, IViewInterface
     {
-        // TODO - refactor with events
         Controller controller;
         public DashboardForm()
         {
@@ -59,7 +58,6 @@ namespace SpcTimer
             get { return CubeTypeLabel.Text; }
             set { this.CubeTypeLabel.Text = value; }
         }
-
         public string BestValue
         {
             get { return BestValueLabel.Text; }
@@ -69,7 +67,6 @@ namespace SpcTimer
                 this.BestValueLabel.Text = value; 
             }
         }
-
         public string WorstValue
         {
             get { return WorstValueLabel.Text; }
@@ -112,7 +109,6 @@ namespace SpcTimer
         {
             ClockLabel.ForeColor = color;
         }
-
         public void SetBackgroundColor(Color color)
         {
             DashboardForm.ActiveForm.BackColor = color;
@@ -123,31 +119,62 @@ namespace SpcTimer
         }
         #endregion
         #region Statistics
-        //TODO - statistics box takes over focus and space doesn't work
+        private string selectedItem = "";
         public void DeleteSelectedStatistics(string selectedItem)
         {
+            if (StatisticsListBox.Items.Count == 0)
+            {
+                const string message = "No element to remove";
+                const string caption = "Error";
+                MessageBox.Show(message, caption);
+                return;
+            }
             string parsed = selectedItem.Split('[', ']')[1];
-            Controller.DeleteStatisticsById(int.Parse(parsed));
+            controller.DeleteStatisticsById(int.Parse(parsed));
             
             StatisticsListBox.Items.Remove(StatisticsListBox.SelectedItem);
         }
-
         public void DeleteAllStatistics()
         {
-            Controller.DeleteAllStatistics();
+            const string message = "Do you want to delete all solves (of all cube types)?";
+            const string caption = "Confirmation";
+            var result = MessageBox.Show(message, caption,
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
+            controller.DeleteAllStatistics();
+            controller.UpdateStatistics();
             StatisticsListBox.Items.Clear();
         }
-
         public void DeleteLastStatistics()
         {
             if (StatisticsListBox.Items.Count == 0)
-                throw new IndexOutOfRangeException("Can't delete with no elements");
+            {
+                const string message = "No element to remove";
+                const string caption = "Error";
+                MessageBox.Show(message, caption);
+                return;
+            }
+            controller.DeleteLast();
+            controller.UpdateStatistics();
             StatisticsListBox.Items.RemoveAt(StatisticsListBox.Items.Count - 1);
         }
-
         public void AddStatistics(string item)
         {
             StatisticsListBox.Items.Add(item);
+        }
+        public void ClearStatisticsBox()
+        {
+            StatisticsListBox.Items.Clear();
+        }
+        private void StatisticsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedItem = StatisticsListBox.GetItemText(StatisticsListBox.SelectedItem);
         }
         #endregion
         #region Controls
@@ -172,12 +199,10 @@ namespace SpcTimer
                     break;
             }
         }
-
         private void StartTimerButton_Click_1(object sender, EventArgs e)
         {
             controller.startStopTimer();
         }
-
         private void ConfirmInspectionButton_Click(object sender, EventArgs e)
         {
             int inspectionTimeValue = 0;
@@ -185,7 +210,41 @@ namespace SpcTimer
             int.TryParse(InspectionTimeLabel.Text, out inspectionTimeValue);
             controller.InspectionTime = inspectionTimeValue;
         }
-    #endregion
+        private void SoundButton_Click(object sender, EventArgs e)
+        {
+            controller.ChangePlaySounds();
+        }
+        private void SetDNFButton_Click(object sender, EventArgs e)
+        {
+            const string message = "Do you want to mark current solve as DNF";
+            const string caption = "Confirmation";
+            var result = MessageBox.Show(message, caption,
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            controller.SetDNF();
+        }
+        private void DeleteSelectedButton_Click(object sender, EventArgs e)
+        {
+            ClearStatisticsBox();
+            DeleteSelectedStatistics(selectedItem);
+            controller.UpdateStatistics();
+        }
+        private void DeleteLastButton_Click(object sender, EventArgs e)
+        {
+            DeleteLastStatistics();
+            controller.UpdateStatistics();
+        }
+        private void DeleteAllButton_Click(object sender, EventArgs e)
+        {
+            DeleteAllStatistics();
+            controller.UpdateStatistics();
+        }
+        #endregion
         #region KeyboardInput
         private bool keyPressed = false;
         private void DashboardForm_KeyUp(object sender, KeyEventArgs e)
@@ -233,36 +292,5 @@ namespace SpcTimer
             
         }
         #endregion
-
-        private void SoundButton_Click(object sender, EventArgs e)
-        {
-            controller.ChangePlaySounds();
-        }
-
-        private void SetDNFButton_Click(object sender, EventArgs e)
-        {
-            controller.SetDNF();
-        }
-        string selectedItem = "";
-        private void DeleteSelectedButton_Click(object sender, EventArgs e)
-        {
-            ClearStatisticsBox();
-            DeleteSelectedStatistics(selectedItem);
-        }
-
-        private void DeleteAllButton_Click(object sender, EventArgs e)
-        {
-            DeleteAllStatistics();
-        }
-
-        public void ClearStatisticsBox()
-        {
-            StatisticsListBox.Items.Clear();
-        }
-
-        private void StatisticsListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selectedItem = StatisticsListBox.GetItemText(StatisticsListBox.SelectedItem);
-        }
     }
 }
