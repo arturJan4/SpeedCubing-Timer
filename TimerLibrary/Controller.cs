@@ -28,6 +28,7 @@ namespace TimerLibrary
          * Save Solve
          * Update Stats
          */
+        #region Variables
         public int InspectionTime { get; set; } = 15; // Inspection Time in seconds
 
         public string DirName;              // Path to .exe directory
@@ -42,6 +43,7 @@ namespace TimerLibrary
         private State state;
         private CubeType currentCubeType;
         private readonly IViewInterface view;        // view interface between controller and form
+        #endregion
         public Controller(IViewInterface view)
         {
             this.view = view;                   // bind view

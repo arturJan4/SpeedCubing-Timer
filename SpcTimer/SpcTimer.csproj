@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>rubiks_cube_15542.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -90,6 +93,13 @@
       <Project>{C210C110-B664-4900-828E-7CD99294BF38}</Project>
       <Name>TimerLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\InspectionEndSound.wav" />
+    <Content Include="Resources\InspectionSound.wav" />
+    <Content Include="Resources\rubiks_cube_15542.ico" />
+    <Content Include="Resources\SolveEndSound.wav" />
+    <Content Include="rubiks_cube_15542.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
