@@ -35,21 +35,8 @@ namespace TimerLibrary
             Recalculate();
             
         }
-        private long BestOfCalculate(int howMany)
-        {
-            if (Count < howMany)
-                return -1;
-            long sum = 0;
-            long max = solves[Count - howMany].SolveTime;
-            long min = solves[Count - howMany].SolveTime;
-            for (int i = Count - howMany; i < Count; ++i)
-            {
-                max = Math.Max(solves[i].SolveTime, max);
-                min = Math.Min(solves[i].SolveTime, min);
-                sum += solves[i].SolveTime;
-            }
-            return (sum - min - max) / (howMany - 2);
-        }
+        
+        #region Output
         public void InitializeViewStatistics(IViewInterface view, int howMany)
         {
             ClearViewStatistics(view);
@@ -57,7 +44,7 @@ namespace TimerLibrary
             {
                 TimeSpan x = TimeSpan.FromMilliseconds(solves[i].SolveTime);
 
-                view.AddStatistics($"{solves[i].Id}.{x.ToString(@"hh\:mm\:ss\:ff")}");
+                view.AddStatistics($"[{solves[i].Id}] {x.ToString(@"hh\:mm\:ss\:ff")}");
             }
             UpdateLabels(view);
         }
@@ -69,15 +56,19 @@ namespace TimerLibrary
             view.Bo5Value       = (BO5 == -1)       ? "00:00:00:00" : TimeToString(BO5);
             view.Bo12Value      = (BO12 == -1)      ? "00:00:00:00" : TimeToString(BO12);
         }
+       
         private string TimeToString(long time)
         {
             TimeSpan currentTime = TimeSpan.FromMilliseconds(time);
             return currentTime.ToString(@"hh\:mm\:ss\:ff");
         }
+        
         public void ClearViewStatistics(IViewInterface view)
         {
             view.DeleteAllStatistics();
         }
+        #endregion
+        #region Calculators
         public void Recalculate()
         {
             if (solves.Count == 0)
@@ -112,13 +103,40 @@ namespace TimerLibrary
                 BO12 = BestOfCalculate(12);
             }
         }
+        private long BestOfCalculate(int howMany)
+        {
+            if (Count < howMany)
+                return -1;
+            long sum = 0;
+            long max = solves[Count - howMany].SolveTime;
+            long min = solves[Count - howMany].SolveTime;
+            for (int i = Count - howMany; i < Count; ++i)
+            {
+                max = Math.Max(solves[i].SolveTime, max);
+                min = Math.Min(solves[i].SolveTime, min);
+                sum += solves[i].SolveTime;
+            }
+            return (sum - min - max) / (howMany - 2);
+        }
+        private void ClearStatistics()
+        {
+            Best = -1;
+            Worst = -1;
+            Average = -1;
+            BO5 = -1;
+            BO12 = -1;
+            Sum = -1;
+            Count = 0;
+        }
+        #endregion
+        #region Input
         public void AddStatistics(IViewInterface view, int howMany, Solve solve)
         {
             if (solve.TypeOfCube != TypeOfCube)
                 throw new InvalidOperationException("Tried to add invalid cube type statistic to incorrect table");
 
             solves.Add(solve);
-            if(solves.Count == 1)
+            if (solves.Count == 1)
             {
                 Initialize();
                 return;
@@ -147,21 +165,11 @@ namespace TimerLibrary
                 BO12 = BestOfCalculate(12);
             }
         }
-        public void ClearStatistics()
-        {
-            Best = -1;
-            Worst = -1;
-            Average = -1;
-            BO5 = -1;
-            BO12 = -1;
-            Sum = -1;
-            Count = 0;
-        }
-
         public void DeleteLast()
         {
             // TODO CRUD
             throw new NotImplementedException();
         }
-    }
+        #endregion
+    }  
 }

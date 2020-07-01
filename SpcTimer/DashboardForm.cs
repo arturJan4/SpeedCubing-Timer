@@ -32,6 +32,11 @@ namespace SpcTimer
         {
             this.controller = controller;
         }
+        private void mainWinformsTimer_Tick(object sender, EventArgs e)
+        {
+            controller.Update();
+        }
+        #region Labels
         public string ClockTime
         {
             get { return ClockLabel.Text; }
@@ -56,65 +61,51 @@ namespace SpcTimer
         public string BestValue
         {
             get { return BestValueLabel.Text; }
-            set { this.BestValueLabel.Text = value; }
+            set 
+            {
+                BestValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
+                this.BestValueLabel.Text = value; 
+            }
         }
 
         public string WorstValue
         {
             get { return WorstValueLabel.Text; }
-            set { this.WorstValueLabel.Text = value; }
+            set 
+            {
+                WorstValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
+                this.WorstValueLabel.Text = value; 
+            }
         }
         public string AverageValue
         {
             get { return AverageValueLabel.Text; }
-            set { this.AverageValueLabel.Text = value; }
+            set 
+            {
+                AverageValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
+                this.AverageValueLabel.Text = value; 
+            }
         }
         public string Bo5Value
         {
             get { return Bo5ValueLabel.Text; }
-            set { this.Bo5ValueLabel.Text = value; }
+            set 
+            {
+                Bo5ValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
+                this.Bo5ValueLabel.Text = value; 
+            }
         }
         public string Bo12Value
         {
             get { return Bo12ValueLabel.Text; }
-            set { this.Bo12ValueLabel.Text = value; }
-        }
-
-        public void TimerInteract()
-        {
-            controller.startStopTimer();
-        }
-
-        private void mainWinformsTimer_Tick(object sender, EventArgs e)
-        {
-            controller.Update();       
-        }
-
-        // TODO - change to up/release
-        /*
-        private void DashboardForm_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == ' ')
+            set 
             {
-                if (this.ActiveControl is Button)
-                {
-                    var button = this.ActiveControl;
-                    button.Enabled = false;
-                    controller.startStopTimer();
-                    Application.DoEvents();
-                    button.Enabled = true;
-                    button.Focus();
-                }
-                else
-                {
-                    controller.startStopTimer();
-                    Application.DoEvents();
-                }
+                Bo12ValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
+                this.Bo12ValueLabel.Text = value;
             }
-           
-        } 
-        */
-
+        }
+        #endregion
+        #region Visual
         public void SetClockColor(Color color)
         {
             ClockLabel.ForeColor = color;
@@ -124,7 +115,12 @@ namespace SpcTimer
         {
             DashboardForm.ActiveForm.BackColor = color;
         }
-
+        public void TimerInteract()
+        {
+            controller.startStopTimer();
+        }
+        #endregion
+        #region Statistics
         //TODO - statistics box takes over focus and space doesn't work
         public void DeleteSelectedStatistics()
         {
@@ -148,8 +144,8 @@ namespace SpcTimer
         {
             StatisticsListBox.Items.Add(item);
         }
-
-
+        #endregion
+        #region Controls
         private void CubeTypeComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             switch (CubeTypeComboBox.SelectedItem.ToString().Trim())
@@ -172,12 +168,25 @@ namespace SpcTimer
             }
         }
 
+        private void StartTimerButton_Click_1(object sender, EventArgs e)
+        {
+            controller.startStopTimer();
+        }
+
+        private void ConfirmInspectionButton_Click(object sender, EventArgs e)
+        {
+            int inspectionTimeValue = 0;
+            //TODO fail parse?
+            int.TryParse(InspectionTimeLabel.Text, out inspectionTimeValue);
+            controller.InspectionTime = inspectionTimeValue;
+        }
+    #endregion
+        #region KeyboardInput
         private bool keyPressed = false;
         private void DashboardForm_KeyUp(object sender, KeyEventArgs e)
         {
             keyPressed = false;
-            // at least half a second of inspection time
-            if(controller.isInspecting() && e.KeyCode == Keys.Space && controller.GetTime().TotalMilliseconds > 500)
+            if(controller.isInspecting() && e.KeyCode == Keys.Space )
             {
                 InspectionLabel.Visible = false;
                 controller.startStopTimer();
@@ -218,18 +227,6 @@ namespace SpcTimer
             }
             
         }
-
-        private void StartTimerButton_Click_1(object sender, EventArgs e)
-        {
-            controller.startStopTimer();
-        }
-
-        private void ConfirmInspectionButton_Click(object sender, EventArgs e)
-        {
-            int inspectionTimeValue = 0;
-            //TODO fail parse?
-            int.TryParse(InspectionTimeLabel.Text, out inspectionTimeValue);
-            controller.InspectionTime = inspectionTimeValue;
-        }
+        #endregion
     }
 }

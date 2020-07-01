@@ -29,17 +29,20 @@ namespace TimerLibrary
          * Update Stats
          */
         const int HowManyRowsVisible = 30;
-        private State state;
-        private CubeType currentCubeType;
+        public int InspectionTime { get; set; } = 15;// in s
+        
+
         public Solve tempSolve;
         //TODO - solves awaiting for save (queue?)
         private Solve awaitingSolve;
         private bool saved = false;
-        private IViewInterface view;
         //TODO - make variable
-        public int InspectionTime { get; set; }// in s
-        List<Statistics> statistics = new List<Statistics>();
+        //TODO - strategy? statistics multiple instatances
+        static List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO) , new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR)};
 
+        private State state;
+        private CubeType currentCubeType;
+        private IViewInterface view;
         public Controller(IViewInterface view)
         {
             this.view = view;
@@ -53,31 +56,11 @@ namespace TimerLibrary
 
             //load from text file
             // TODO - strategy? statistics multiple instatances
-            statistics.Add(new Statistics(CubeType.TWO));
-            statistics.Add(new Statistics(CubeType.THREE));
-            statistics.Add(new Statistics(CubeType.FOUR));
             GetStatistics(currentCubeType).InitializeViewStatistics(view,15);
         }
 
-        private Statistics GetStatistics(CubeType cubetype)
-        {
-            switch (cubetype)
-            {
-                case CubeType.TWO:
-                    return statistics[0];
-                    break;
-                case CubeType.THREE:
-                    return statistics[1];
-                    break;
-                case CubeType.FOUR:
-                    return statistics[2];
-                    break;
-                default:
-                    throw new InvalidOperationException("Invalid cube type");
-                    break;
-            }
-        }
         // keep as general as possible (controller pattern)
+        #region MainStateMachine
         public void startStopTimer()
         {
             switch (state)
@@ -132,7 +115,11 @@ namespace TimerLibrary
             
             if(state == State.INSPECT)
             {
-                if(currentTime.TotalSeconds > InspectionTime)
+                int colorShift = (int)Math.Floor((currentTime.TotalSeconds / InspectionTime) * 250);
+                int red = colorShift;
+                int green = 255 - colorShift;
+                view.SetClockColor(Color.FromArgb(red, green, 0));
+                if (currentTime.TotalSeconds > InspectionTime)
                 {
                     state = State.WAIT;
                     view.SetClockColor(Color.White);
@@ -147,13 +134,60 @@ namespace TimerLibrary
             view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
             
         }
-
+        #endregion
+        #region Setters
         static private void SaveSolve(Solve solve)
         {
             foreach(DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
                 c.SaveSolveToDB(solve);
             }
+        }
+        public void SaveQueued()
+        {
+            //TODO - add queue
+            if(awaitingSolve != null)
+            {
+                SaveSolve(awaitingSolve);
+            }
+        }
+        public void ChangeCubeType(CubeType newCubeType)
+        {
+            currentCubeType = newCubeType;
+            state = State.WAIT;
+            view.SetClockColor(Color.White);
+            view.SetBackgroundColor(Color.Black);
+            TimerClass.Instance.Reset();
+            tempSolve = GenerateSolve();
+            view.Scramble = tempSolve.Scramble;
+            view.CubeTypeLabelInter = CubeTypeToLabel(newCubeType);
+            GetStatistics(newCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
+        }
+        #endregion
+        #region Getters
+        public bool isSolving()
+        {
+            return (state == State.SOLVE);
+        }
+        public bool isInspecting()
+        {
+            return (state == State.INSPECT);
+        }
+        public bool isWating()
+        {
+            return (state == State.WAIT);
+        }
+        public Solve GenerateSolve()
+        {
+            return new Solve(currentCubeType);
+        }
+        public string GetScramble()
+        {
+            return tempSolve.Scramble;
+        }
+        public TimeSpan GetTime()
+        {
+            return TimerClass.Instance.GetTime();
         }
         static private string CubeTypeToLabel(CubeType cubetype)
         {
@@ -173,49 +207,24 @@ namespace TimerLibrary
                     break;
             }
         }
-        public void SaveQueued()
+        static private Statistics GetStatistics(CubeType cubetype)
         {
-            //TODO - add queue
-            if(awaitingSolve != null)
+            switch (cubetype)
             {
-                SaveSolve(awaitingSolve);
+                case CubeType.TWO:
+                    return statistics[0];
+                    break;
+                case CubeType.THREE:
+                    return statistics[1];
+                    break;
+                case CubeType.FOUR:
+                    return statistics[2];
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid cube type");
+                    break;
             }
         }
-        public Solve GenerateSolve()
-        {
-            return new Solve(currentCubeType);
-        }
-        public string GetScramble()
-        {
-            return tempSolve.Scramble;
-        }
-        public TimeSpan GetTime()
-        {
-            return TimerClass.Instance.GetTime();
-        }
-        public void ChangeCubeType(CubeType newCubeType)
-        {
-            currentCubeType = newCubeType;
-            state = State.WAIT;
-            view.SetClockColor(Color.White);
-            view.SetBackgroundColor(Color.Black);
-            TimerClass.Instance.Reset();
-            tempSolve = GenerateSolve();
-            view.Scramble = tempSolve.Scramble;
-            view.CubeTypeLabelInter = CubeTypeToLabel(newCubeType);
-            GetStatistics(newCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
-        }
-        public bool isSolving()
-        {
-            return (state == State.SOLVE);
-        }
-        public bool isInspecting()
-        {
-            return (state == State.INSPECT);
-        }
-        public bool isWating()
-        {
-            return (state == State.WAIT);
-        }
     }
+    #endregion
 }
