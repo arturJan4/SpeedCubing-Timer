@@ -26,13 +26,13 @@ namespace TimerLibrary.DataConnection
         public Solve DeleteLast()
         {
             List<Solve> solves = LoadSolvesFromDB();
-            if (solves.Any())
+            if (solves.Count >= 1)
             {
                 solves.RemoveAt(solves.Count - 1);
             }
             DeleteAll();
             SaveSolveListToDb(solves);
-            if (solves.Any())
+            if (solves.Count >= 1)
             {
                 return solves[solves.Count - 1];
             }
