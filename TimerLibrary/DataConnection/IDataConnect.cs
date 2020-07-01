@@ -14,6 +14,8 @@ namespace TimerLibrary.DataConnection
         List<Solve> SaveSolveListToDb(List<Solve> solveList);
         Solve SaveSolveToDB(Solve solve);
         List<Solve> LoadSolvesFromDB();
-
+        List<Solve> DeleteById(int id);
+        Solve DeleteLast();
+        List<Solve> DeleteAll();
     }
 }

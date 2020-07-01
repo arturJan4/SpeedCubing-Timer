@@ -39,7 +39,7 @@ namespace TimerLibrary
         #region Output
         public void InitializeViewStatistics(IViewInterface view, int howMany)
         {
-            ClearViewStatistics(view);
+            view.ClearStatisticsBox();
             for (int i = Math.Max(0, solves.Count - howMany); i < solves.Count; ++i)
             {
                 TimeSpan x = TimeSpan.FromMilliseconds(solves[i].SolveTime);
@@ -62,11 +62,7 @@ namespace TimerLibrary
             TimeSpan currentTime = TimeSpan.FromMilliseconds(time);
             return currentTime.ToString(@"hh\:mm\:ss\:ff");
         }
-        
-        public void ClearViewStatistics(IViewInterface view)
-        {
-            view.DeleteAllStatistics();
-        }
+       
         #endregion
         #region Calculators
         public void Recalculate()
@@ -165,10 +161,13 @@ namespace TimerLibrary
                 BO12 = BestOfCalculate(12);
             }
         }
-        public void DeleteLast()
+        public static void ReplaceLast(Solve solve)
         {
-            // TODO CRUD
-            throw new NotImplementedException();
+
+        }
+        public static void DeleteLast()
+        {
+            
         }
         #endregion
     }  

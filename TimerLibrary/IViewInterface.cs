@@ -30,8 +30,9 @@ namespace TimerLibrary
         void SetBackgroundColor(Color color);
         
         void AddStatistics(string item);
+        void ClearStatisticsBox();
         void DeleteLastStatistics();
-        void DeleteSelectedStatistics();
+        void DeleteSelectedStatistics(string selectedItem);
         void DeleteAllStatistics();
         
         ///List<string> Statistics { get;}

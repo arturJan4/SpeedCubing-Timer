@@ -121,6 +121,23 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="SoundButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAF59AABefQHSgJ5QAAACZklE
+        QVRYR93Xy8sPURzH8eN+L/VQRG6F2D0roVggFpRY4E+gWCAp2Tw7G5bIAhsKue5s5LIRscDGJZdcinK/
+        U7zfp05N06+Z+f0eM7/yrVfPc+aZ53c+c+bMmfML/0tNxlqMia2Gy84v4BMWeqDJsvPz+IOvWIzGKl35
+        O1zHFzQWIDvsm7AZ31EWYAjGY2BsdVjZzrd4gNqIKgFW4jaWxFYHle98MKyqAXrxHBcx1gPWUIwoMRxT
+        0apzqyiAnz8FDr/Vh1/YEFvUSVzBtQL+/R4+IN+5VRRgBR5gdWyFMBNPcA5eXHyEXuEqWnXu8Rv4jWNI
+        V5KtogBzYIeOXuyQ2o+3iOuGAQ5hGLLDnnh8Fl7iAFpVPsBozEYaqb34iLRQORqev9OGAUxUVN7DF6ga
+        YD0eI3W4FC5U22MrhGl4Cm9DLQEW4TN2x1YIE3AfxzEAjuxlPEItAXpwB2cwCN7GS3BO2bl1GD/9pY4A
+        dpImcerwKO7CcJZ92nejARyVRgKMg+vGaXgLXMjyt+AIfvhLHQH86STcFVshTIST0HXESTgSTsKHqCXA
+        Orj6LYitEJbBx3BbbIUwHT6GZ20Y4F8vRKMwAw6/tQ8uRCmQ2zfP32HDAFWXYp/jdpfiufBq3Tl5QdZB
+        vME8GydQ9WXkVWxFPkRRgOXw/rsXsHw3PMMpODnbeh17FU4u72U2RFEAP9//TefvgbN/TWy1WZPgWy0f
+        oihAtubjNfyMjrfw2RDeDqtqgFW4hbLzSisbwg2KvqHsgx2xfm9KU6UQ73ETjW7LUxmia19MUqUQXflq
+        lsrtete+nPajQvgLcZzV1Qd0FOYAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAgIAAAAEAIAAoCAEAFgAAACgAAACAAAAAAAEAAAEAIAAAAAAAAAgBAAAAAAAAAAAAAAAAAAAA

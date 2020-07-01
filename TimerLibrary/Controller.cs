@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Media;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,9 +30,12 @@ namespace TimerLibrary
          * Save Solve
          * Update Stats
          */
-        const int HowManyRowsVisible = 30;
+        const int HowManyRowsVisible = 200;
         public int InspectionTime { get; set; } = 15;// in s
-        
+
+        public string DirName;
+        public Sound SoundControl;
+        int BeepNumber;
 
         public Solve tempSolve;
         //TODO - solves awaiting for save (queue?)
@@ -52,11 +57,14 @@ namespace TimerLibrary
             tempSolve = GenerateSolve();
             view.Scramble = tempSolve.Scramble;
 
+            SoundControl = new Sound(DirName);
+            SoundControl.PlaySounds = true;
+
             view.CubeTypeLabelInter = ($"{CubeTypeToLabel(currentCubeType)}");
 
             //load from text file
             // TODO - strategy? statistics multiple instatances
-            GetStatistics(currentCubeType).InitializeViewStatistics(view,15);
+            GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
         }
 
         // keep as general as possible (controller pattern)
@@ -69,10 +77,13 @@ namespace TimerLibrary
                 case State.WAIT:
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
+
+                    SoundControl.PlayInspectionStartSound();
+
+                    view.SetBackgroundColor(Color.FromArgb(30, 30, 30));
                     view.SetClockColor(Color.Green);
                     view.DNF = "";
-                    // TODO - color dialog - user picked background
-                    view.SetBackgroundColor(Color.FromArgb(30,30,30));
+
                     //TODO - db connection
                     //TODO - text connection
                     //TODO - save in background / edit last element (delete/add)
@@ -89,6 +100,7 @@ namespace TimerLibrary
                 case State.INSPECT:
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
+                    
                     view.SetClockColor(Color.Red);
                     state = State.SOLVE;
                     break;
@@ -96,6 +108,7 @@ namespace TimerLibrary
                     tempSolve.SolveTime = (long)GetTime().TotalMilliseconds;
                     state = State.WAIT;
                     TimerClass.Instance.Disable();
+                    SoundControl.PlaySolveEndSound();
                     saved = false;
                     awaitingSolve = tempSolve;
                     tempSolve = GenerateSolve();
@@ -115,10 +128,21 @@ namespace TimerLibrary
             
             if(state == State.INSPECT)
             {
-                int colorShift = (int)Math.Floor((currentTime.TotalSeconds / InspectionTime) * 250);
+                double percentageEnd = currentTime.TotalSeconds / InspectionTime;
+                int colorShift = (int)Math.Floor(percentageEnd * 250);
                 int red = colorShift;
                 int green = 255 - colorShift;
                 view.SetClockColor(Color.FromArgb(red, green, 0));
+
+                if((BeepNumber == 0 && percentageEnd > 0.5) ||
+                   (BeepNumber == 1 && percentageEnd > 0.75)||
+                   (BeepNumber == 2 && percentageEnd > 0.9) ||
+                   (BeepNumber == 3 && percentageEnd > 0.95))
+                {
+                    SoundControl.PlayInspectionEndSound();
+                    BeepNumber++; 
+                }
+
                 if (currentTime.TotalSeconds > InspectionTime)
                 {
                     state = State.WAIT;
@@ -128,6 +152,7 @@ namespace TimerLibrary
                     view.DNF = "DNF";
                     tempSolve.SolveTime = 0;
                     TimerClass.Instance.Reset();
+                    BeepNumber = 0;
                 }
             }
             // TODO check if inspection is over
@@ -162,6 +187,34 @@ namespace TimerLibrary
             view.Scramble = tempSolve.Scramble;
             view.CubeTypeLabelInter = CubeTypeToLabel(newCubeType);
             GetStatistics(newCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
+        }
+        public void ChangePlaySounds()
+        {
+            SoundControl.PlaySounds = !SoundControl.PlaySounds;
+        }
+        public void SetDNF()
+        {
+            if(state == State.WAIT && awaitingSolve != null)
+            {
+                awaitingSolve.IsDNF = true;
+                view.DNF = "DNF";
+            }
+        }
+        public static void DeleteAllStatistics()
+        {
+            foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
+            {
+                c.DeleteAll();
+            }
+            statistics = new List<Statistics> { new Statistics(CubeType.TWO), new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR) };
+        }
+        public static void DeleteStatisticsById(int id)
+        {
+            foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
+            {
+                c.DeleteById(id);
+            }
+            statistics = new List<Statistics> { new Statistics(CubeType.TWO), new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR) };
         }
         #endregion
         #region Getters

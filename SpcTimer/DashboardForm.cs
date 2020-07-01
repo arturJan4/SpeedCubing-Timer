@@ -19,6 +19,8 @@ namespace SpcTimer
         {
             InitializeComponent();
             controller = new Controller(this);
+            controller.DirName = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            
             KeyPreview = true;
             controller.InspectionTime = 15;
 
@@ -122,14 +124,17 @@ namespace SpcTimer
         #endregion
         #region Statistics
         //TODO - statistics box takes over focus and space doesn't work
-        public void DeleteSelectedStatistics()
+        public void DeleteSelectedStatistics(string selectedItem)
         {
-            // TODO check id - delete from DB
+            string parsed = selectedItem.Split('[', ']')[1];
+            Controller.DeleteStatisticsById(int.Parse(parsed));
+            
             StatisticsListBox.Items.Remove(StatisticsListBox.SelectedItem);
         }
 
         public void DeleteAllStatistics()
         {
+            Controller.DeleteAllStatistics();
             StatisticsListBox.Items.Clear();
         }
 
@@ -228,5 +233,36 @@ namespace SpcTimer
             
         }
         #endregion
+
+        private void SoundButton_Click(object sender, EventArgs e)
+        {
+            controller.ChangePlaySounds();
+        }
+
+        private void SetDNFButton_Click(object sender, EventArgs e)
+        {
+            controller.SetDNF();
+        }
+        string selectedItem = "";
+        private void DeleteSelectedButton_Click(object sender, EventArgs e)
+        {
+            ClearStatisticsBox();
+            DeleteSelectedStatistics(selectedItem);
+        }
+
+        private void DeleteAllButton_Click(object sender, EventArgs e)
+        {
+            DeleteAllStatistics();
+        }
+
+        public void ClearStatisticsBox()
+        {
+            StatisticsListBox.Items.Clear();
+        }
+
+        private void StatisticsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedItem = StatisticsListBox.GetItemText(StatisticsListBox.SelectedItem);
+        }
     }
 }

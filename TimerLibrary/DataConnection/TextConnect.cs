@@ -17,6 +17,35 @@ namespace TimerLibrary.DataConnection
         // inspired partly by Tim Corey's tutorial: https://www.youtube.com/watch?v=X_P70uukPrU
         private const string SolvesFile = "Solves.csv";
 
+        public List<Solve> DeleteAll()
+        {
+            return SolvesFile.FilePath().OverrideFile().LoadFile().ConvertToSolves();
+        }
+
+        public List<Solve> DeleteById(int id)
+        {
+            List<Solve> solves = LoadSolvesFromDB();
+            solves.RemoveAll(x => (x.Id == id));
+            DeleteAll();
+            SaveSolveListToDb(solves);
+            return solves;
+        }
+
+        public Solve DeleteLast()
+        {
+            List<Solve> solves = LoadSolvesFromDB();
+            if(solves.Any())
+            {
+                solves.RemoveAt(solves.Count - 1);
+            }
+            SaveSolveListToDb(solves);
+            if(solves.Any())
+            {
+                return solves[solves.Count - 1];
+            }
+            return null;
+        }
+
         public List<Solve> LoadSolvesFromDB()
         {
             return SolvesFile.FilePath().LoadFile().ConvertToSolves();
@@ -24,38 +53,29 @@ namespace TimerLibrary.DataConnection
 
         public List<Solve> SaveSolveListToDb(List<Solve> solveList)
         {
+            // load to List<Solve> from file
             List<Solve> solves = LoadSolvesFromDB();
-            // TODO - saving list to DB
-            /*
+
             // find the ID
             int currId = 1;
             if (solves.Count > 0)
             {
                 currId = solves.OrderByDescending(x => x.Id).First().Id + 1;
             }
-            solve.Id = currId;
-            // add new record
-            solves.Add(solve);
 
-            // convert to list<string>
-            // save to file
+            foreach(Solve s in solveList)
+            {
+                s.Id = currId;
+                currId++;
+                solves.Add(s);
+            }
             solves.SaveToSolveFile(SolvesFile);
-
-            return solve;
-            */
             return solves;
         }
 
         // TODO - change App.config so that it works on local files independent of the user
         public Solve SaveSolveToDB(Solve solve)
         {
-            //TODO - text connection
-            /*
-                StreamWriter File = new StreamWriter("plik.txt");
-                File.Write("hello world");
-                File.Close();
-             */
-
             // load to List<Solve> from file
             List<Solve> solves = LoadSolvesFromDB();
 

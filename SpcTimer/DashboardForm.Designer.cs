@@ -54,10 +54,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.InspectionTimeLabel = new System.Windows.Forms.TextBox();
             this.InfoLabel = new System.Windows.Forms.Label();
+            this.SoundButton = new SpcTimer.NonSelectableButton();
+            this.ConfirmInspectionButton = new SpcTimer.NonSelectableButton();
             this.resetButton = new SpcTimer.NonSelectableButton();
             this.StartTimerButton = new SpcTimer.NonSelectableButton();
+            this.SetDNFButton = new SpcTimer.NonSelectableButton();
+            this.DeleteSelectedButton = new SpcTimer.NonSelectableButton();
+            this.DeleteAllButton = new SpcTimer.NonSelectableButton();
             this.CubeTypeComboBox = new SpcTimer.NonSelectableComboBox();
-            this.ConfirmInspectionButton = new SpcTimer.NonSelectableButton();
             this.panel4.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -110,7 +114,7 @@
             this.CubeTypeLabel.BackColor = System.Drawing.Color.Transparent;
             this.CubeTypeLabel.Font = new System.Drawing.Font("Ebrima", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CubeTypeLabel.ForeColor = System.Drawing.Color.White;
-            this.CubeTypeLabel.Location = new System.Drawing.Point(47, 33);
+            this.CubeTypeLabel.Location = new System.Drawing.Point(47, 15);
             this.CubeTypeLabel.Name = "CubeTypeLabel";
             this.CubeTypeLabel.Size = new System.Drawing.Size(70, 17);
             this.CubeTypeLabel.TabIndex = 4;
@@ -142,6 +146,7 @@
             this.StatisticsListBox.Size = new System.Drawing.Size(205, 225);
             this.StatisticsListBox.TabIndex = 7;
             this.StatisticsListBox.TabStop = false;
+            this.StatisticsListBox.SelectedIndexChanged += new System.EventHandler(this.StatisticsListBox_SelectedIndexChanged);
             // 
             // InspectionLabel
             // 
@@ -281,6 +286,9 @@
             // panel4
             // 
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Controls.Add(this.SetDNFButton);
+            this.panel4.Controls.Add(this.DeleteSelectedButton);
+            this.panel4.Controls.Add(this.DeleteAllButton);
             this.panel4.Controls.Add(this.CubeTypeComboBox);
             this.panel4.Controls.Add(this.CubeTypeLabel);
             this.panel4.Controls.Add(this.LabelTest);
@@ -323,6 +331,7 @@
             // panel1
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel1.Controls.Add(this.SoundButton);
             this.panel1.Controls.Add(this.ConfirmInspectionButton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.InspectionTimeLabel);
@@ -369,6 +378,27 @@
             this.InfoLabel.Text = "Hold space to begin inspection";
             this.InfoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // SoundButton
+            // 
+            this.SoundButton.ForeColor = System.Drawing.Color.Transparent;
+            this.SoundButton.Image = ((System.Drawing.Image)(resources.GetObject("SoundButton.Image")));
+            this.SoundButton.Location = new System.Drawing.Point(510, 24);
+            this.SoundButton.Name = "SoundButton";
+            this.SoundButton.Size = new System.Drawing.Size(42, 33);
+            this.SoundButton.TabIndex = 17;
+            this.SoundButton.UseVisualStyleBackColor = true;
+            this.SoundButton.Click += new System.EventHandler(this.SoundButton_Click);
+            // 
+            // ConfirmInspectionButton
+            // 
+            this.ConfirmInspectionButton.Location = new System.Drawing.Point(510, 146);
+            this.ConfirmInspectionButton.Name = "ConfirmInspectionButton";
+            this.ConfirmInspectionButton.Size = new System.Drawing.Size(72, 20);
+            this.ConfirmInspectionButton.TabIndex = 16;
+            this.ConfirmInspectionButton.Text = "Confirm";
+            this.ConfirmInspectionButton.UseVisualStyleBackColor = true;
+            this.ConfirmInspectionButton.Click += new System.EventHandler(this.ConfirmInspectionButton_Click);
+            // 
             // resetButton
             // 
             this.resetButton.ForeColor = System.Drawing.Color.White;
@@ -390,6 +420,36 @@
             this.StartTimerButton.UseVisualStyleBackColor = true;
             this.StartTimerButton.Click += new System.EventHandler(this.StartTimerButton_Click_1);
             // 
+            // SetDNFButton
+            // 
+            this.SetDNFButton.Location = new System.Drawing.Point(24, 111);
+            this.SetDNFButton.Name = "SetDNFButton";
+            this.SetDNFButton.Size = new System.Drawing.Size(112, 23);
+            this.SetDNFButton.TabIndex = 12;
+            this.SetDNFButton.Text = "Set DNF";
+            this.SetDNFButton.UseVisualStyleBackColor = true;
+            this.SetDNFButton.Click += new System.EventHandler(this.SetDNFButton_Click);
+            // 
+            // DeleteSelectedButton
+            // 
+            this.DeleteSelectedButton.Location = new System.Drawing.Point(24, 153);
+            this.DeleteSelectedButton.Name = "DeleteSelectedButton";
+            this.DeleteSelectedButton.Size = new System.Drawing.Size(112, 23);
+            this.DeleteSelectedButton.TabIndex = 11;
+            this.DeleteSelectedButton.Text = "Delete Selected";
+            this.DeleteSelectedButton.UseVisualStyleBackColor = true;
+            this.DeleteSelectedButton.Click += new System.EventHandler(this.DeleteSelectedButton_Click);
+            // 
+            // DeleteAllButton
+            // 
+            this.DeleteAllButton.Location = new System.Drawing.Point(24, 194);
+            this.DeleteAllButton.Name = "DeleteAllButton";
+            this.DeleteAllButton.Size = new System.Drawing.Size(112, 23);
+            this.DeleteAllButton.TabIndex = 10;
+            this.DeleteAllButton.Text = "Delete All";
+            this.DeleteAllButton.UseVisualStyleBackColor = true;
+            this.DeleteAllButton.Click += new System.EventHandler(this.DeleteAllButton_Click);
+            // 
             // CubeTypeComboBox
             // 
             this.CubeTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -398,22 +458,12 @@
             "2x2 Cube",
             "3x3 Cube",
             "4x4 Cube"});
-            this.CubeTypeComboBox.Location = new System.Drawing.Point(24, 63);
+            this.CubeTypeComboBox.Location = new System.Drawing.Point(24, 47);
             this.CubeTypeComboBox.Name = "CubeTypeComboBox";
             this.CubeTypeComboBox.Size = new System.Drawing.Size(121, 21);
             this.CubeTypeComboBox.TabIndex = 9;
             this.CubeTypeComboBox.TabStop = false;
             this.CubeTypeComboBox.SelectionChangeCommitted += new System.EventHandler(this.CubeTypeComboBox_SelectionChangeCommitted);
-            // 
-            // ConfirmInspectionButton
-            // 
-            this.ConfirmInspectionButton.Location = new System.Drawing.Point(510, 146);
-            this.ConfirmInspectionButton.Name = "ConfirmInspectionButton";
-            this.ConfirmInspectionButton.Size = new System.Drawing.Size(72, 20);
-            this.ConfirmInspectionButton.TabIndex = 16;
-            this.ConfirmInspectionButton.Text = "Confirm";
-            this.ConfirmInspectionButton.UseVisualStyleBackColor = true;
-            this.ConfirmInspectionButton.Click += new System.EventHandler(this.ConfirmInspectionButton_Click);
             // 
             // DashboardForm
             // 
@@ -473,6 +523,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox InspectionTimeLabel;
         private NonSelectableButton ConfirmInspectionButton;
+        private NonSelectableButton SoundButton;
+        private NonSelectableButton SetDNFButton;
+        private NonSelectableButton DeleteSelectedButton;
+        private NonSelectableButton DeleteAllButton;
     }
 }
 
