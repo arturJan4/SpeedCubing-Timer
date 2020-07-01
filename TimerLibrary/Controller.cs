@@ -246,8 +246,11 @@ namespace TimerLibrary
                 view.DNF = "DNF";
                 DeleteAllStatistics();
                 List<Solve> newList = GetStatistics(awaitingSolve.TypeOfCube).GetSolvesList();
-                newList.RemoveAt(newList.Count - 1);
-                newList.Add(awaitingSolve);
+                if(newList.Count >= 1)
+                {
+                    newList.RemoveAt(newList.Count - 1);
+                    newList.Add(awaitingSolve);
+                }
 
                 SaveSolveList(newList);
                 UpdateStatistics();

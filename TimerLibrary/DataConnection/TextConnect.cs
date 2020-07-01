@@ -16,7 +16,6 @@ namespace TimerLibrary.DataConnection
     {
         // inspired partly by Tim Corey's tutorial: https://www.youtube.com/watch?v=X_P70uukPrU
         private const string SolvesFile = "Solves.csv";
-
         public List<Solve> DeleteAll()
         {
             return SolvesFile.FilePath().OverrideFile().LoadFile().ConvertToSolves();

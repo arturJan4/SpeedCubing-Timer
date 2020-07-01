@@ -16,8 +16,6 @@ namespace SpcTimer
         //TODO proper setter and getters and encapsulation
         //TODO more tests
         //TODO mock tests?
-        //TODO scale form better
-        //TODO visualizer
         //TODO optimization
         static void Main()
         {
@@ -28,7 +26,6 @@ namespace SpcTimer
             TimerLibrary.GlobalConfig.Initialize(false, true);
 
             Application.Run(new DashboardForm());
-
         }
     }
 }

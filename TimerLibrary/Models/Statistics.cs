@@ -49,7 +49,12 @@ namespace TimerLibrary
             {
                 TimeSpan x = TimeSpan.FromMilliseconds(solves[i].SolveTime);
 
-                view.AddStatistics($"[{solves[i].Id}] {x.ToString(@"hh\:mm\:ss\:ff")}");
+                int length = 5;
+                string paddedId = solves[i].Id.ToString();
+                int calculatePadLeft = (((length - paddedId.Length) / 2) + paddedId.Length);
+                paddedId = paddedId.PadLeft(calculatePadLeft).PadRight(length);
+
+                view.AddStatistics($"[{paddedId}] {x.ToString(@"hh\:mm\:ss\:ff")}");
             }
             UpdateLabels(view);
         }

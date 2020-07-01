@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TimerLibrary.DataConnection.Extensions
 {
@@ -18,7 +20,9 @@ namespace TimerLibrary.DataConnection.Extensions
         // TODO - comment
         public static string FilePath(this string filepath)
         {
-            return $"{ ConfigurationManager.AppSettings["filePath"] }\\{ filepath }";
+            //TODO - App.config link
+            //return $"{ ConfigurationManager.AppSettings["filePath"] }\\{ filepath }";
+            return $"{ filepath }";
         }
         public static string OverrideFile(this string filepath)
         {

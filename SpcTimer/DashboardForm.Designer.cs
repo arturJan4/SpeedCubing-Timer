@@ -49,6 +49,7 @@
             this.WorstLabel = new System.Windows.Forms.Label();
             this.BestLabel = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.DeleteLastButton = new SpcTimer.NonSelectableButton();
             this.SetDNFButton = new SpcTimer.NonSelectableButton();
             this.DeleteSelectedButton = new SpcTimer.NonSelectableButton();
             this.DeleteAllButton = new SpcTimer.NonSelectableButton();
@@ -62,7 +63,6 @@
             this.InfoLabel = new System.Windows.Forms.Label();
             this.resetButton = new SpcTimer.NonSelectableButton();
             this.StartTimerButton = new SpcTimer.NonSelectableButton();
-            this.DeleteLastButton = new SpcTimer.NonSelectableButton();
             this.panel4.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -287,6 +287,7 @@
             // panel4
             // 
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel4.Controls.Add(this.DeleteLastButton);
             this.panel4.Controls.Add(this.SetDNFButton);
             this.panel4.Controls.Add(this.DeleteSelectedButton);
@@ -300,11 +301,21 @@
             this.panel4.Size = new System.Drawing.Size(162, 244);
             this.panel4.TabIndex = 15;
             // 
+            // DeleteLastButton
+            // 
+            this.DeleteLastButton.Location = new System.Drawing.Point(24, 121);
+            this.DeleteLastButton.Name = "DeleteLastButton";
+            this.DeleteLastButton.Size = new System.Drawing.Size(121, 23);
+            this.DeleteLastButton.TabIndex = 13;
+            this.DeleteLastButton.Text = "Delete Last";
+            this.DeleteLastButton.UseVisualStyleBackColor = true;
+            this.DeleteLastButton.Click += new System.EventHandler(this.DeleteLastButton_Click);
+            // 
             // SetDNFButton
             // 
             this.SetDNFButton.Location = new System.Drawing.Point(24, 79);
             this.SetDNFButton.Name = "SetDNFButton";
-            this.SetDNFButton.Size = new System.Drawing.Size(112, 23);
+            this.SetDNFButton.Size = new System.Drawing.Size(121, 23);
             this.SetDNFButton.TabIndex = 12;
             this.SetDNFButton.Text = "Set DNF";
             this.SetDNFButton.UseVisualStyleBackColor = true;
@@ -314,7 +325,7 @@
             // 
             this.DeleteSelectedButton.Location = new System.Drawing.Point(24, 164);
             this.DeleteSelectedButton.Name = "DeleteSelectedButton";
-            this.DeleteSelectedButton.Size = new System.Drawing.Size(112, 23);
+            this.DeleteSelectedButton.Size = new System.Drawing.Size(121, 23);
             this.DeleteSelectedButton.TabIndex = 11;
             this.DeleteSelectedButton.Text = "Delete Selected";
             this.DeleteSelectedButton.UseVisualStyleBackColor = true;
@@ -324,7 +335,7 @@
             // 
             this.DeleteAllButton.Location = new System.Drawing.Point(24, 208);
             this.DeleteAllButton.Name = "DeleteAllButton";
-            this.DeleteAllButton.Size = new System.Drawing.Size(112, 23);
+            this.DeleteAllButton.Size = new System.Drawing.Size(121, 23);
             this.DeleteAllButton.TabIndex = 10;
             this.DeleteAllButton.Text = "Delete All";
             this.DeleteAllButton.UseVisualStyleBackColor = true;
@@ -347,6 +358,8 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -378,6 +391,7 @@
             // panel1
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.SoundButton);
             this.panel1.Controls.Add(this.ConfirmInspectionButton);
             this.panel1.Controls.Add(this.label1);
@@ -467,21 +481,10 @@
             this.StartTimerButton.UseVisualStyleBackColor = true;
             this.StartTimerButton.Click += new System.EventHandler(this.StartTimerButton_Click_1);
             // 
-            // DeleteLastButton
-            // 
-            this.DeleteLastButton.Location = new System.Drawing.Point(24, 121);
-            this.DeleteLastButton.Name = "DeleteLastButton";
-            this.DeleteLastButton.Size = new System.Drawing.Size(112, 23);
-            this.DeleteLastButton.TabIndex = 13;
-            this.DeleteLastButton.Text = "Delete Last";
-            this.DeleteLastButton.UseVisualStyleBackColor = true;
-            this.DeleteLastButton.Click += new System.EventHandler(this.DeleteLastButton_Click);
-            // 
             // DashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(596, 513);
             this.Controls.Add(this.panel1);
