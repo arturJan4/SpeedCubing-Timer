@@ -275,7 +275,6 @@ namespace SpcTimer
                 InfoLabel.Text = "Hit space to stop timer";
             }
         }
-        //TODO - experiment with InspectionTimeLabel.Enabled 
         //ref: https://stackoverflow.com/questions/1140250/how-to-remove-the-focus-from-a-textbox-in-winforms
         private void DashboardForm_KeyDown(object sender, KeyEventArgs e)
         {

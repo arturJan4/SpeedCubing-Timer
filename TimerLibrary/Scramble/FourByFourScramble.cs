@@ -17,6 +17,11 @@ namespace TimerLibrary.Scrambles
             F, // front
             B, // only for 4x4 scrambles
         };
+        /// <summary>
+        /// Generates a random 4x4 scramble, 
+        /// non-repeating sequence of moves, separated with spaces, indcudes back moves
+        /// </summary>
+        /// <returns></returns>
         public List<Move> GenerateScramble()
         {
             const int moveNumber = 40; //official WCA regulations

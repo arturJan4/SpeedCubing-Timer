@@ -20,13 +20,11 @@ namespace TimerLibrary.DataConnection.Extensions
         {
             return $"{ ConfigurationManager.AppSettings["filePath"] }\\{ filepath }";
         }
-
         public static string OverrideFile(this string filepath)
         {
             File.WriteAllText(filepath, String.Empty);
             return filepath;
         }
-
         public static List<string> LoadFile(this string filepath)
         {
             if (!File.Exists(filepath))
@@ -36,7 +34,6 @@ namespace TimerLibrary.DataConnection.Extensions
 
             return File.ReadAllLines(filepath).ToList();
         }
-
         public static List<Solve> ConvertToSolves(this List<string> lines)
         {
             List<Solve> outList = new List<Solve>();

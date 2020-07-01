@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
+    /// <summary>
+    /// Statistics class for a given cube.
+    /// Calculates certain statistics.
+    /// Updates labels and statistics ListBox.
+    /// </summary>
     public class Statistics
     {
         // TODO smarter seperation
@@ -19,24 +24,23 @@ namespace TimerLibrary
         public long Sum = -1;
         public int Count = 0;
         CubeType TypeOfCube;
-
+        /// <summary>
+        /// Constructs a class given a cube type.
+        /// </summary>
+        /// <param name="cubetype"></param>
         public Statistics(CubeType cubetype)
         {
             TypeOfCube = cubetype;
             Initialize();
         }
-        private void Initialize()
-        {
-            solves = GlobalConfig.ConnectionsList[0].LoadSolvesFromDB();
-            solves = solves.FindAll(x => (x.TypeOfCube == TypeOfCube));
-            solves = solves.FindAll(x => (x.IsDNF == false));
-            // TODO - how to calculate BO if there is DNF?
-            //orderedSolves = solves.OrderBy(x => x.SolveTime).ToList();
-            ClearStatistics();
-            Recalculate();
-        }
-        
+
         #region Output
+        /// <summary>
+        /// Initializes the view with elements.
+        /// If there is more elements then argument howMany then it skips some statistics at the beginning.
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="howMany">How many elements should be presented at once</param>
         public void InitializeViewStatistics(IViewInterface view, int howMany)
         {
             Initialize();
@@ -49,6 +53,10 @@ namespace TimerLibrary
             }
             UpdateLabels(view);
         }
+        /// <summary>
+        /// Updates averages labels.
+        /// </summary>
+        /// <param name="view"></param>
         public void UpdateLabels(IViewInterface view)
         {
             view.BestValue      = (Best == -1)      ? "00:00:00:00" : TimeToString(Best);
@@ -57,14 +65,42 @@ namespace TimerLibrary
             view.Bo5Value       = (BO5 == -1)       ? "00:00:00:00" : TimeToString(BO5);
             view.Bo12Value      = (BO12 == -1)      ? "00:00:00:00" : TimeToString(BO12);
         }
+        /// <summary>
+        /// Returns a list of filtered statistics.
+        /// </summary>
+        /// <returns>List of filtered statistics</returns>
+        public List<Solve> GetSolvesList()
+        {
+            return solves;
+        }
+        /// <summary>
+        /// Converts time in miliseconds to formatted string
+        /// </summary>
+        /// <param name="time">Time in miliseconds</param>
+        /// <returns>Format: HH:MM:SS:FF </returns>
         private string TimeToString(long time)
         {
             TimeSpan currentTime = TimeSpan.FromMilliseconds(time);
             return currentTime.ToString(@"hh\:mm\:ss\:ff");
         }
-     
+        /// <summary>
+        /// Loads solves from file, filters for specific cubetype, discards DNF solves
+        /// </summary>
+        private void Initialize()
+        {
+            solves = GlobalConfig.ConnectionsList[0].LoadSolvesFromDB();
+            solves = solves.FindAll(x => (x.TypeOfCube == TypeOfCube));
+            solves = solves.FindAll(x => (x.IsDNF == false));
+            // TODO - how to calculate BO if there is DNF?
+            //orderedSolves = solves.OrderBy(x => x.SolveTime).ToList();
+            ClearStatistics();
+            Recalculate();
+        }
         #endregion
         #region Calculators
+        /// <summary>
+        /// Recalculates stats
+        /// </summary>
         public void Recalculate()
         {
             if (solves.Count == 0)
@@ -99,6 +135,12 @@ namespace TimerLibrary
                 BO12 = BestOfCalculate(12);
             }
         }
+        /// <summary>
+        /// Flexible Best of 'x' calculator.
+        /// Discards best and worst and calculates average.
+        /// </summary>
+        /// <param name="howMany">Best Of 'howMany'</param>
+        /// <returns></returns>
         private long BestOfCalculate(int howMany)
         {
             if (Count < howMany)
@@ -114,6 +156,9 @@ namespace TimerLibrary
             }
             return (sum - min - max) / (howMany - 2);
         }
+        /// <summary>
+        /// Resets the averages to starting values from initialization.
+        /// </summary>
         private void ClearStatistics()
         {
             Best = -1;
@@ -126,41 +171,7 @@ namespace TimerLibrary
         }
         #endregion
         #region Input
-        public void AddStatistics(IViewInterface view, int howMany, Solve solve)
-        {
-            if (solve.TypeOfCube != TypeOfCube)
-                throw new InvalidOperationException("Tried to add invalid cube type statistic to incorrect table");
-
-            if (solve.IsDNF || solves.Count == 0)
-            {
-                Initialize();
-                return;
-            }
-
-            Count = solves.Count;
-
-                Sum += solve.SolveTime;
-                Best = Math.Min(solve.SolveTime, Best);
-                Worst = Math.Max(solve.SolveTime, Worst);
-
-            Average = Sum / Count;
-
-            //BO5  
-            if (Count >= 5)
-            {
-                BO5 = BestOfCalculate(5);
-            }
-
-            //BO12
-            if (Count >= 12)
-            {
-                BO12 = BestOfCalculate(12);
-            }
-        }
+        // addStatistics() - adds only one / doesn't have to recalculate sum (uses already known sum)
         #endregion
-        public List<Solve> GetSolvesList()
-        {
-            return solves;
-    }
     }  
 }

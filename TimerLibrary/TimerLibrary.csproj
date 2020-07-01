@@ -58,9 +58,9 @@
     <Compile Include="DataConnection\TextConnectorExtension.cs" />
     <Compile Include="Scramble\ThreeByThreeScramble.cs" />
     <Compile Include="Scramble\TwoByTwoScramble.cs" />
-    <Compile Include="Sound.cs" />
-    <Compile Include="Statistics.cs" />
-    <Compile Include="TimerClass.cs" />
+    <Compile Include="Models\Sound.cs" />
+    <Compile Include="Models\Statistics.cs" />
+    <Compile Include="Models\TimerClass.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

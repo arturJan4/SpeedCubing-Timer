@@ -8,14 +8,22 @@ using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
+    /// <summary>
+    /// Controls sound files and plays/mutes them
+    /// </summary>
     public class Sound
     {
-        private string DirName;
-        private bool loadedFiles;
+        private string DirName;                         //path to folder where the sounds are located
+        private bool loadedFiles;                       //true if all files loaded successfully
         static SoundPlayer InspectionStartSound;
-        static SoundPlayer InspectionEndSound;
+        static SoundPlayer InspectionEndSound;          //urges user to start solving
         static SoundPlayer SolveEndSound;
-        public bool PlaySounds { get; set; }
+        public bool PlaySounds { get; set; }            //audio control, if true then play sounds
+
+        /// <summary>
+        /// Check if files exist and loads them
+        /// </summary>
+        /// <param name="dirName">path to folder where the sounds are located</param>
         public Sound(string dirName)
         {
             DirName = dirName;
@@ -37,7 +45,9 @@ namespace TimerLibrary
             InspectionEndSound.Load();
             loadedFiles = true;
         }
-
+        /// <summary>
+        /// Plays the sound of inspection begin.
+        /// </summary>
         public void PlayInspectionStartSound()
         {
             if(loadedFiles && PlaySounds)
@@ -45,15 +55,9 @@ namespace TimerLibrary
                 InspectionStartSound.Play();
             }
         }
-
-        public void PlaySolveEndSound()
-        {
-            if (loadedFiles && PlaySounds)
-            {
-                SolveEndSound.Play();
-            }
-        }
-
+        /// <summary>
+        /// Plays the sound notyfing of getting close to inspection end.
+        /// </summary>
         public void PlayInspectionEndSound()
         {
             if (loadedFiles && PlaySounds)
@@ -61,6 +65,15 @@ namespace TimerLibrary
                 InspectionEndSound.Play();
             }
         }
-
+        /// <summary>
+        /// Plays the sound of finished solve.
+        /// </summary>
+        public void PlaySolveEndSound()
+        {
+            if (loadedFiles && PlaySounds)
+            {
+                SolveEndSound.Play();
+            }
+        }
     }
 }

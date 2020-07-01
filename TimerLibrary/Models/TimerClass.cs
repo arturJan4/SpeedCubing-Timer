@@ -30,16 +30,8 @@ namespace TimerLibrary
             }
         }
         private Boolean isEnabled = false;
-        // TODO - check whether Stopwatch is the best option
         private Stopwatch stopwatch = new Stopwatch();
-        public void Tick()
-        {
-            //TODO - check whether you need that method
-            /*
-            if (isEnable)
-                TimeVal += 10;
-            */   
-        }
+
         /// <summary>
         /// Stops measuring time, resets the time to zero.
         /// </summary>

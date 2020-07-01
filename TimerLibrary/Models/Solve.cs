@@ -48,7 +48,11 @@ namespace TimerLibrary
             IsDNF = false;
             TypeOfCube = cubeType;
         }
-
+        /// <summary>
+        /// Returns a scrambling strategy give a type of cube
+        /// </summary>
+        /// <param name="cubeType">Type of cube (example 3x3, 2x2)</param>
+        /// <returns>Scrambling strategy</returns>
         private static IGenerateScrambleInterface CubeTypeToStrategy(CubeType cubeType)
         {
             IGenerateScrambleInterface strategy;

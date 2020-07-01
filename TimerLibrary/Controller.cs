@@ -15,6 +15,9 @@ namespace TimerLibrary
     /// </summary>
     public class Controller
     {
+        /// <summary>
+        /// Current State of controller state machine.
+        /// </summary>
         public enum State
         {
             WAIT,
@@ -30,40 +33,43 @@ namespace TimerLibrary
          * Save Solve
          * Update Stats
          */
-        const int HowManyRowsVisible = 200;
-        public int InspectionTime { get; set; } = 15;// in s
+        public int InspectionTime { get; set; } = 15; // Inspection Time in seconds
 
-        public string DirName;
+        public string DirName;              // Path to .exe directory
         public Sound SoundControl;
-        int BeepNumber;
+        int BeepNumber;                     //which beep is it (for inspection urging user to start)
 
-        public Solve tempSolve;
-        private Solve awaitingSolve;
+        public Solve tempSolve;             //currently processed solve
+        private Solve awaitingSolve;        //previous solve (for changing last solve when user selects DNF)
         static List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO) , new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR)};
+        
+        const int HowManyRowsVisible = 200; // How many rows should be visible in a Statistics box at once
 
         private State state;
         private CubeType currentCubeType;
-        private IViewInterface view;
+        private IViewInterface view;        // view interface between controller and form
         public Controller(IViewInterface view)
         {
-            this.view = view;
-            state = State.WAIT;
-            view.DNF = " ";
-            currentCubeType = CubeType.THREE;
-            tempSolve = GenerateSolve();
+            this.view = view;                   // bind view
+            state = State.WAIT;                 // defualt state
+            currentCubeType = CubeType.THREE;   // default cube
+            view.DNF = " ";                     // not DNF
+            tempSolve = GenerateSolve();        
             view.Scramble = tempSolve.Scramble;
 
             SoundControl = new Sound(DirName);
-            SoundControl.PlaySounds = true;
+            SoundControl.PlaySounds = true;     // defualt - play sounds
 
             view.CubeTypeLabelInter = ($"{CubeTypeToLabel(currentCubeType)}");
 
-            //load from text file
-            UpdateStatistics();
+            UpdateStatistics();                  // load from text file and update
         }
 
-        // keep as general as possible (controller pattern)
         #region MainStateMachine
+        /// <summary>
+        /// Takes proper action depending on current state.
+        /// Activated when user interacts with the timer (either by button or keyboard).
+        /// </summary>
         public void startStopTimer()
         {
             switch (state)
@@ -71,7 +77,6 @@ namespace TimerLibrary
                 case State.WAIT:
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
-
                     break;
                 case State.INSPECT:
                     TimerClass.Instance.Reset();
@@ -82,18 +87,21 @@ namespace TimerLibrary
                     TimerClass.Instance.Disable();
 
                     SaveSolve(tempSolve);                                    //save solve
-                    UpdateStatistics();
+                    UpdateStatistics();                                      //updates new stats
 
-                    awaitingSolve = tempSolve;                 
+                    awaitingSolve = tempSolve;                               //remembers the current solve before replacing it
                     tempSolve = GenerateSolve();                             //generate new solve
                     break;
                 default:
                     throw new Exception("wrong state");
                     break;
             }
-            UIStateChanges();
+            UIStateChanges();                                               
             state = GetNextState(state);
         }
+        /// <summary>
+        /// Updates UI and plays sound based on current state
+        /// </summary>
         public void UIStateChanges()
         {
             switch (state)
@@ -117,9 +125,12 @@ namespace TimerLibrary
                     break;
             }
         }
+        /// <summary>
+        /// Updates timer Label and checks for inspection triggers.
+        /// Uses form internal timer (which updates not so often as one from the Timer class)
+        /// </summary>
         public void Update()
         {
-            TimerClass.Instance.Tick();
             TimeSpan currentTime = GetTime();
             
             if(state == State.INSPECT)
@@ -153,6 +164,11 @@ namespace TimerLibrary
             }
             view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");   
         }
+        /// <summary>
+        /// Gets the next state
+        /// </summary>
+        /// <param name="state">Current state</param>
+        /// <returns></returns>
         private static State GetNextState(State state)
         {
             switch (state)
@@ -173,14 +189,21 @@ namespace TimerLibrary
         }
         #endregion
         #region Setters
+        /// <summary>
+        /// Saves solve to all databases.
+        /// </summary>
+        /// <param name="solve"></param>
         static private void SaveSolve(Solve solve)
         {
             foreach(DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
                 c.SaveSolveToDB(solve);
             }
-
         }
+        /// <summary>
+        /// Saves a list of solves to all databases.
+        /// </summary>
+        /// <param name="solveList"></param>
         static private void SaveSolveList(List<Solve> solveList)
         {
             foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
@@ -188,6 +211,10 @@ namespace TimerLibrary
                 c.SaveSolveListToDb(solveList);
             }
         }
+        /// <summary>
+        /// Changes current cube type.
+        /// </summary>
+        /// <param name="newCubeType">New cube type to be set</param>
         public void ChangeCubeType(CubeType newCubeType)
         {
             currentCubeType = newCubeType;
@@ -200,10 +227,16 @@ namespace TimerLibrary
             view.CubeTypeLabelInter = CubeTypeToLabel(newCubeType);
             GetStatistics(newCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
         }
+        /// <summary>
+        /// Turns on/off sound playing.
+        /// </summary>
         public void ChangePlaySounds()
         {
             SoundControl.PlaySounds = !SoundControl.PlaySounds;
         }
+        /// <summary>
+        /// If possible changes past solve to DNF and deletes it from visible list box.
+        /// </summary>
         public void SetDNF()
         {
             if(state == State.WAIT && awaitingSolve != null)
@@ -221,6 +254,9 @@ namespace TimerLibrary
             }
 
         }
+        /// <summary>
+        /// Deletes ALL!(independent of cube type) statistics from all databases.
+        /// </summary>
         public void DeleteAllStatistics()
         {
             foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
@@ -229,6 +265,10 @@ namespace TimerLibrary
             }
             GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
         }
+        /// <summary>
+        /// Deletes a cube specified by ID from all databases.
+        /// </summary>
+        /// <param name="id">Unqique positive id - key in database</param>
         public void DeleteStatisticsById(int id)
         {
             foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
@@ -236,8 +276,10 @@ namespace TimerLibrary
                 c.DeleteById(id);
             }
             GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
-
         }
+        /// <summary>
+        /// Deletes last added solve from all databases.
+        /// </summary>
         public void DeleteLast()
         {
             foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
@@ -247,6 +289,9 @@ namespace TimerLibrary
             GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
 
         }
+        /// <summary>
+        /// Updates all statistics and labels, displays them, and scroll to the bottom of listbox.
+        /// </summary>
         public void UpdateStatistics()
         {
             GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);

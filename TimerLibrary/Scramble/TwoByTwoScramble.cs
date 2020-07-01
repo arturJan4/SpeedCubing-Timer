@@ -8,6 +8,12 @@ namespace TimerLibrary.Scrambles
 {
     public class TwoByTwoScramble : IGenerateScrambleInterface
     {
+        /// <summary>
+        /// Generates a random 2x2 scramble, 
+        /// non-repeating sequence of moves, separated with spaces. 
+        /// Doesn't use D or L moves. 
+        /// </summary>
+        /// <returns></returns>
         public List<Move> GenerateScramble()
         {
             const int moveNumber = 10; //official WCA regulations
@@ -38,7 +44,12 @@ namespace TimerLibrary.Scrambles
             }
             return moveList;
         }
-        // 2x2 has simpler scrambles
+        
+        /// <summary>
+        /// Checks if Move is valid in 2x2 Scramble
+        /// </summary>
+        /// <param name="move"></param>
+        /// <returns></returns>
         private bool valid(Move move)
         {
             if (move.TypeOfMove == MoveType.D ||

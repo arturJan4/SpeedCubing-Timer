@@ -12,13 +12,14 @@ namespace TimerLibrary
     /// </summary>
     public static class GlobalConfig
     {
+        /// <summary>
+        /// List of connected databases
+        /// </summary>
         public static List<IDataConnect> ConnectionsList { get; set; } = new List<IDataConnect>();
-
         public static void Initialize(bool dbOpen, bool textFileOpen)
         {
             if (dbOpen)
             {
-
                 //TODO - implement DB connection
             }
 
