@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Media;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
@@ -41,24 +36,26 @@ namespace TimerLibrary
 
         public Solve tempSolve;             //currently processed solve
         private Solve awaitingSolve;        //previous solve (for changing last solve when user selects DNF)
-        static List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO) , new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR)};
-        
+        static readonly List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO), new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR) };
+
         const int HowManyRowsVisible = 200; // How many rows should be visible in a Statistics box at once
 
         private State state;
         private CubeType currentCubeType;
-        private IViewInterface view;        // view interface between controller and form
+        private readonly IViewInterface view;        // view interface between controller and form
         public Controller(IViewInterface view)
         {
             this.view = view;                   // bind view
             state = State.WAIT;                 // defualt state
             currentCubeType = CubeType.THREE;   // default cube
             view.DNF = " ";                     // not DNF
-            tempSolve = GenerateSolve();        
+            tempSolve = GenerateSolve();
             view.Scramble = tempSolve.Scramble;
 
-            SoundControl = new Sound(DirName);
-            SoundControl.PlaySounds = true;     // defualt - play sounds
+            SoundControl = new Sound(DirName)
+            {
+                PlaySounds = true     // defualt - play sounds
+            };
 
             view.CubeTypeLabelInter = ($"{CubeTypeToLabel(currentCubeType)}");
 
@@ -70,7 +67,7 @@ namespace TimerLibrary
         /// Takes proper action depending on current state.
         /// Activated when user interacts with the timer (either by button or keyboard).
         /// </summary>
-        public void startStopTimer()
+        public void StartStopTimer()
         {
             switch (state)
             {
@@ -82,7 +79,7 @@ namespace TimerLibrary
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
                     break;
-                case State.SOLVE:               
+                case State.SOLVE:
                     tempSolve.SolveTime = (long)GetTime().TotalMilliseconds; //get time
                     TimerClass.Instance.Disable();
 
@@ -96,7 +93,7 @@ namespace TimerLibrary
                     throw new Exception("wrong state");
                     break;
             }
-            UIStateChanges();                                               
+            UIStateChanges();
             state = GetNextState(state);
         }
         /// <summary>
@@ -132,8 +129,8 @@ namespace TimerLibrary
         public void Update()
         {
             TimeSpan currentTime = GetTime();
-            
-            if(state == State.INSPECT)
+
+            if (state == State.INSPECT)
             {
                 double percentageEnd = currentTime.TotalSeconds / InspectionTime;
                 int colorShift = (int)Math.Floor(percentageEnd * 250);
@@ -141,13 +138,13 @@ namespace TimerLibrary
                 int green = 255 - colorShift;
                 view.SetClockColor(Color.FromArgb(red, green, 0));
 
-                if((BeepNumber == 0 && percentageEnd > 0.5) ||
-                   (BeepNumber == 1 && percentageEnd > 0.75)||
+                if ((BeepNumber == 0 && percentageEnd > 0.5) ||
+                   (BeepNumber == 1 && percentageEnd > 0.75) ||
                    (BeepNumber == 2 && percentageEnd > 0.9) ||
                    (BeepNumber == 3 && percentageEnd > 0.95))
                 {
                     SoundControl.PlayInspectionEndSound();
-                    BeepNumber++; 
+                    BeepNumber++;
                 }
 
                 if (currentTime.TotalSeconds > InspectionTime)
@@ -162,7 +159,7 @@ namespace TimerLibrary
                     BeepNumber = 0;
                 }
             }
-            view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");   
+            view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
         }
         /// <summary>
         /// Gets the next state
@@ -195,7 +192,7 @@ namespace TimerLibrary
         /// <param name="solve"></param>
         static private void SaveSolve(Solve solve)
         {
-            foreach(DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
+            foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
                 c.SaveSolveToDB(solve);
             }
@@ -239,14 +236,14 @@ namespace TimerLibrary
         /// </summary>
         public void SetDNF()
         {
-            if(state == State.WAIT && awaitingSolve != null)
+            if (state == State.WAIT && awaitingSolve != null)
             {
                 awaitingSolve.IsDNF = true;
-                
+
                 view.DNF = "DNF";
                 DeleteAllStatistics();
                 List<Solve> newList = GetStatistics(awaitingSolve.TypeOfCube).GetSolvesList();
-                if(newList.Count >= 1)
+                if (newList.Count >= 1)
                 {
                     newList.RemoveAt(newList.Count - 1);
                     newList.Add(awaitingSolve);
@@ -303,15 +300,15 @@ namespace TimerLibrary
 
         #endregion
         #region Getters
-        public bool isSolving()
+        public bool IsSolving()
         {
             return (state == State.SOLVE);
         }
-        public bool isInspecting()
+        public bool IsInspecting()
         {
             return (state == State.INSPECT);
         }
-        public bool isWating()
+        public bool IsWating()
         {
             return (state == State.WAIT);
         }
@@ -365,5 +362,4 @@ namespace TimerLibrary
         }
         #endregion
     }
-
 }

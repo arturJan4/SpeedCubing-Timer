@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TimerLibrary;
 
@@ -17,9 +11,11 @@ namespace SpcTimer
         public DashboardForm()
         {
             InitializeComponent();
-            controller = new Controller(this);
-            controller.DirName = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-            
+            controller = new Controller(this)
+            {
+                DirName = System.IO.Path.GetDirectoryName(Application.ExecutablePath)
+            };
+
             KeyPreview = true;
             controller.InspectionTime = 15;
 
@@ -33,7 +29,7 @@ namespace SpcTimer
         {
             this.controller = controller;
         }
-        private void mainWinformsTimer_Tick(object sender, EventArgs e)
+        private void MainWinformsTimer_Tick(object sender, EventArgs e)
         {
             controller.Update();
         }
@@ -61,43 +57,43 @@ namespace SpcTimer
         public string BestValue
         {
             get { return BestValueLabel.Text; }
-            set 
+            set
             {
                 BestValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.BestValueLabel.Text = value; 
+                this.BestValueLabel.Text = value;
             }
         }
         public string WorstValue
         {
             get { return WorstValueLabel.Text; }
-            set 
+            set
             {
                 WorstValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.WorstValueLabel.Text = value; 
+                this.WorstValueLabel.Text = value;
             }
         }
         public string AverageValue
         {
             get { return AverageValueLabel.Text; }
-            set 
+            set
             {
                 AverageValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.AverageValueLabel.Text = value; 
+                this.AverageValueLabel.Text = value;
             }
         }
         public string Bo5Value
         {
             get { return Bo5ValueLabel.Text; }
-            set 
+            set
             {
                 Bo5ValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.Bo5ValueLabel.Text = value; 
+                this.Bo5ValueLabel.Text = value;
             }
         }
         public string Bo12Value
         {
             get { return Bo12ValueLabel.Text; }
-            set 
+            set
             {
                 Bo12ValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
                 this.Bo12ValueLabel.Text = value;
@@ -115,7 +111,7 @@ namespace SpcTimer
         }
         public void TimerInteract()
         {
-            controller.startStopTimer();
+            controller.StartStopTimer();
         }
         #endregion
         #region Statistics
@@ -213,12 +209,11 @@ namespace SpcTimer
         }
         private void StartTimerButton_Click_1(object sender, EventArgs e)
         {
-            controller.startStopTimer();
+            controller.StartStopTimer();
         }
         private void ConfirmInspectionButton_Click(object sender, EventArgs e)
         {
-            int inspectionTimeValue = 0;
-            int.TryParse(InspectionTimeLabel.Text, out inspectionTimeValue);
+            int.TryParse(InspectionTimeLabel.Text, out int inspectionTimeValue);
             controller.InspectionTime = inspectionTimeValue;
         }
         private void SoundButton_Click(object sender, EventArgs e)
@@ -268,17 +263,17 @@ namespace SpcTimer
         private void DashboardForm_KeyUp(object sender, KeyEventArgs e)
         {
             keyPressed = false;
-            if(controller.isInspecting() && e.KeyCode == Keys.Space )
+            if (controller.IsInspecting() && e.KeyCode == Keys.Space)
             {
                 InspectionLabel.Visible = false;
-                controller.startStopTimer();
+                controller.StartStopTimer();
                 InfoLabel.Text = "Hit space to stop timer";
             }
         }
         //ref: https://stackoverflow.com/questions/1140250/how-to-remove-the-focus-from-a-textbox-in-winforms
         private void DashboardForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if(keyPressed)
+            if (keyPressed)
             {
                 InspectionTimeLabel.Enabled = false;
                 e.Handled = true;
@@ -290,23 +285,23 @@ namespace SpcTimer
                 if (e.KeyCode == Keys.Space)
                 {
                     InspectionTimeLabel.Enabled = false;
-                    if (controller.isWating())
+                    if (controller.IsWating())
                     {
-                        controller.startStopTimer();
+                        controller.StartStopTimer();
                         InspectionLabel.Visible = true;
                         InfoLabel.Text = "Release space to begin timer";
                     }
 
-                    if (controller.isSolving())
+                    if (controller.IsSolving())
                     {
-                        controller.startStopTimer();
+                        controller.StartStopTimer();
                         InfoLabel.Text = "Hold space to begin inspection";
                         InspectionTimeLabel.Enabled = true;
                     }
                 }
-                
+
             }
-            
+
         }
 
         #endregion

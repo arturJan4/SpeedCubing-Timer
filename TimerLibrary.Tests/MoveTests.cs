@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TimerLibrary;
-using Xunit;
+﻿using Xunit;
 
 namespace TimerLibrary.Tests
 {
     public class MoveTests
     {
         [Theory]
-        [InlineData(MoveType.L,1,false,false)]
+        [InlineData(MoveType.L, 1, false, false)]
         [InlineData(MoveType.F, 2, false, true)]
         public void ctr_ShouldCreate(MoveType moveExp, uint rowsExp, bool doubleExp, bool antiClockwiseExp)
         {
             //Arrange
 
             //Act
-            Move tested              = new Move(moveExp, rowsExp, doubleExp, antiClockwiseExp);
-            MoveType moveActual      = tested.TypeOfMove;
-            uint rowsActual           = tested.RowsAtOnce;
-            bool doubleActual        = tested.IsDouble;
+            Move tested = new Move(moveExp, rowsExp, doubleExp, antiClockwiseExp);
+            MoveType moveActual = tested.TypeOfMove;
+            uint rowsActual = tested.RowsAtOnce;
+            bool doubleActual = tested.IsDouble;
             bool antiClockwiseActual = tested.IsAnticlockwise;
 
             //Asert

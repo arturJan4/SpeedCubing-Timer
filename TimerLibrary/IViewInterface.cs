@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace TimerLibrary
 {
@@ -39,7 +34,7 @@ namespace TimerLibrary
         /// </summary>
         /// <param name="color">Color Enum (can use RGB input)</param>
         void SetBackgroundColor(Color color);
-        
+
         /// <summary>
         /// Adds one item to the box.
         /// </summary>
@@ -66,7 +61,7 @@ namespace TimerLibrary
         /// Deletes all statistics
         /// </summary>
         void DeleteAllStatistics();
-        
+
         /// <summary>
         /// String representation of a current scramble.
         /// </summary>

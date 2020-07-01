@@ -83,7 +83,7 @@
             // 
             this.mainWinformsTimer.Enabled = true;
             this.mainWinformsTimer.Interval = 10;
-            this.mainWinformsTimer.Tick += new System.EventHandler(this.mainWinformsTimer_Tick);
+            this.mainWinformsTimer.Tick += new System.EventHandler(this.MainWinformsTimer_Tick);
             // 
             // ClockLabel
             // 

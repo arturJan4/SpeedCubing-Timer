@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
@@ -35,7 +30,7 @@ namespace TimerLibrary
                 return;
             }
 
-            InspectionStartSound = new SoundPlayer($"{DirName}InspectionSound.wav");        
+            InspectionStartSound = new SoundPlayer($"{DirName}InspectionSound.wav");
             InspectionStartSound.Load();
 
             SolveEndSound = new SoundPlayer($"{DirName}SolveEndSound.wav");
@@ -50,7 +45,7 @@ namespace TimerLibrary
         /// </summary>
         public void PlayInspectionStartSound()
         {
-            if(loadedFiles && PlaySounds)
+            if (loadedFiles && PlaySounds)
             {
                 InspectionStartSound.Play();
             }

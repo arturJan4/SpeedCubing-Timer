@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
@@ -22,7 +18,7 @@ namespace TimerLibrary
         {
             get
             {
-                if(SingletonInstance == null)
+                if (SingletonInstance == null)
                 {
                     SingletonInstance = new TimerClass();
                 }

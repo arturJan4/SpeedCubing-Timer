@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TimerLibrary.Scrambles
 {
@@ -19,7 +16,7 @@ namespace TimerLibrary.Scrambles
         /// <summary>
         /// List of Moves generated from scrambling algorithm.
         /// </summary>
-        public List<Move> Moves{get;}
+        public List<Move> Moves { get; }
         /// <summary>
         /// String representation of a scramble, moves seperated by spaces.
         /// Length depends on passed strategy.
@@ -39,9 +36,9 @@ namespace TimerLibrary.Scrambles
             Moves = strategy.GenerateScramble();
 
             StringBuilder builder = new StringBuilder();
-            for(int i = 0; i < Moves.Count; ++i)
+            for (int i = 0; i < Moves.Count; ++i)
             {
-                if(i == Moves.Count - 1)
+                if (i == Moves.Count - 1)
                 {
                     builder.Append($"{Moves[i].ToStringRepresentation()}");
                 }

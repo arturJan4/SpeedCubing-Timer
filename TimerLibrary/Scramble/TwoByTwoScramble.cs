@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TimerLibrary.Scrambles
 {
@@ -21,19 +17,19 @@ namespace TimerLibrary.Scrambles
             List<Move> moveList = new List<Move>(moveNumber);
 
             int i = moveNumber;
-            Move prevMove = Move.getRandomMove(rowsAtOnce);
+            Move prevMove = Move.GetRandomMove(rowsAtOnce);
             while (!valid(prevMove))
             {
-                prevMove = Move.getRandomMove(rowsAtOnce);
+                prevMove = Move.GetRandomMove(rowsAtOnce);
             }
             moveList.Add(prevMove);
             --i;
             while (i != 0)
             {
-                Move nextMove = Move.getRandomMove(rowsAtOnce);
+                Move nextMove = Move.GetRandomMove(rowsAtOnce);
                 while (!valid(nextMove))
                 {
-                    nextMove = Move.getRandomMove(rowsAtOnce);
+                    nextMove = Move.GetRandomMove(rowsAtOnce);
                 }
                 if (nextMove.ToStringRepresentation() != prevMove.ToStringRepresentation())
                 {
@@ -44,7 +40,7 @@ namespace TimerLibrary.Scrambles
             }
             return moveList;
         }
-        
+
         /// <summary>
         /// Checks if Move is valid in 2x2 Scramble
         /// </summary>

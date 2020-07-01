@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
@@ -34,7 +31,7 @@ namespace TimerLibrary
         /// </summary>
         /// <param name="rowsAtOnce"> How many rows at once can you turn in a given cube.</param>
         /// <returns></returns>
-        public static Move getRandomMove(uint rowsAtOnce)
+        public static Move GetRandomMove(uint rowsAtOnce)
         {
             if (rowsAtOnce == 0)
                 throw new ArgumentOutOfRangeException("RowsAtOnce has to be positive");
@@ -43,7 +40,7 @@ namespace TimerLibrary
             Array possibleMoves = Enum.GetValues(typeof(MoveType));
 
             MoveType type = (MoveType)possibleMoves.GetValue(rand.Next(possibleMoves.Length));
-            
+
             int modifierRand = rand.Next(0, 2);
             bool isDouble = (modifierRand == 1);
             bool isAnticlockwise = (modifierRand == 2);
@@ -62,20 +59,20 @@ namespace TimerLibrary
             StringBuilder output = new StringBuilder();
             string enumName = Enum.GetName(typeof(MoveType), TypeOfMove);
             output.Append(enumName);
-            
-            if(IsDouble)
+
+            if (IsDouble)
             {
                 output.Append("2");
             }
-            if(IsAnticlockwise)
+            if (IsAnticlockwise)
             {
                 output.Append("'");
             }
-            if(RowsAtOnce > 1)
+            if (RowsAtOnce > 1)
             {
                 output.Append($"({RowsAtOnce})");
             }
-            
+
             return output.ToString();
         }
         /// <summary>
@@ -91,7 +88,7 @@ namespace TimerLibrary
                 throw new ArgumentOutOfRangeException("rowsAtOnce has to be positive");
             if (isDouble && isAnticlockwise)
                 throw new ArgumentException("Move by 180 degrees has to be specified either clockwise or anticlockwise");
-            
+
             TypeOfMove = moveType;
             RowsAtOnce = rowsAtOnce;
             IsDouble = isDouble;

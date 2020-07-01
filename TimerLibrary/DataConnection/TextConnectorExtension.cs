@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TimerLibrary.DataConnection.Extensions
 {
@@ -55,7 +50,7 @@ namespace TimerLibrary.DataConnection.Extensions
                     sol.TypeOfCube = (CubeType)Enum.Parse(typeof(CubeType), cols[4]);
                     outList.Add(sol);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine($"Parsing from text file - error {e}");
                 }
@@ -65,7 +60,7 @@ namespace TimerLibrary.DataConnection.Extensions
         public static void SaveToSolveFile(this List<Solve> solves, string filepath)
         {
             List<string> lines = new List<string>();
-            foreach(Solve s in solves)
+            foreach (Solve s in solves)
             {
                 lines.Add($"{s.Id},{s.SolveTime},{s.Scramble},{s.IsDNF},{s.TypeOfCube}");
             }

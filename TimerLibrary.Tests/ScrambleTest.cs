@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TimerLibrary;
-using TimerLibrary.Scrambles;
+﻿using TimerLibrary.Scrambles;
 using Xunit;
 
 namespace TimerLibrary.Tests
@@ -17,13 +11,13 @@ namespace TimerLibrary.Tests
             Scramble tested = new Scramble(new ThreeByThreeScramble());
 
             Move prev = tested.Moves[0];
-            for(int i = 1; i < 20; ++i)
+            for (int i = 1; i < 20; ++i)
             {
                 Move curr = tested.Moves[i];
                 Assert.NotEqual(prev, curr);
                 prev = curr;
             }
-          
+
             string[] splitted = tested.Representation.Split(' ');
 
             Assert.Equal(20, tested.Moves.Count);

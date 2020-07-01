@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TimerLibrary
+﻿namespace TimerLibrary
 {
     /// <summary>
     /// Possible moveTypes, don't include back moves as they're not used in scrambles

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TimerLibrary.DataConnection.Extensions;
 
 namespace TimerLibrary.DataConnection
@@ -31,13 +26,13 @@ namespace TimerLibrary.DataConnection
         public Solve DeleteLast()
         {
             List<Solve> solves = LoadSolvesFromDB();
-            if(solves.Any())
+            if (solves.Any())
             {
                 solves.RemoveAt(solves.Count - 1);
             }
             DeleteAll();
             SaveSolveListToDb(solves);
-            if(solves.Any())
+            if (solves.Any())
             {
                 return solves[solves.Count - 1];
             }
@@ -59,7 +54,7 @@ namespace TimerLibrary.DataConnection
                 currId = solves.OrderByDescending(x => x.Id).First().Id + 1;
             }
 
-            foreach(Solve s in solveList)
+            foreach (Solve s in solveList)
             {
                 s.Id = currId;
                 currId++;
@@ -77,7 +72,7 @@ namespace TimerLibrary.DataConnection
 
             // find the ID
             int currId = 1;
-            if(solves.Count > 0)
+            if (solves.Count > 0)
             {
                 currId = solves.OrderByDescending(x => x.Id).First().Id + 1;
             }

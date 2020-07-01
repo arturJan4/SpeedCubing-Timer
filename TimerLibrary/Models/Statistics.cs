@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TimerLibrary
 {
@@ -23,7 +20,7 @@ namespace TimerLibrary
         public long BO12 = -1;
         public long Sum = -1;
         public int Count = 0;
-        CubeType TypeOfCube;
+        readonly CubeType TypeOfCube;
         /// <summary>
         /// Constructs a class given a cube type.
         /// </summary>
@@ -64,11 +61,11 @@ namespace TimerLibrary
         /// <param name="view"></param>
         public void UpdateLabels(IViewInterface view)
         {
-            view.BestValue      = (Best == -1)      ? "00:00:00:00" : TimeToString(Best);
-            view.WorstValue     = (Worst == -1)     ? "00:00:00:00" : TimeToString(Worst);
-            view.AverageValue   = (Average == -1)   ? "00:00:00:00" : TimeToString(Average);
-            view.Bo5Value       = (BO5 == -1)       ? "00:00:00:00" : TimeToString(BO5);
-            view.Bo12Value      = (BO12 == -1)      ? "00:00:00:00" : TimeToString(BO12);
+            view.BestValue = (Best == -1) ? "00:00:00:00" : TimeToString(Best);
+            view.WorstValue = (Worst == -1) ? "00:00:00:00" : TimeToString(Worst);
+            view.AverageValue = (Average == -1) ? "00:00:00:00" : TimeToString(Average);
+            view.Bo5Value = (BO5 == -1) ? "00:00:00:00" : TimeToString(BO5);
+            view.Bo12Value = (BO12 == -1) ? "00:00:00:00" : TimeToString(BO12);
         }
         /// <summary>
         /// Returns a list of filtered statistics.
@@ -178,5 +175,5 @@ namespace TimerLibrary
         #region Input
         // addStatistics() - adds only one / doesn't have to recalculate sum (uses already known sum)
         #endregion
-    }  
+    }
 }

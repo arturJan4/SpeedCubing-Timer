@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TimerLibrary.Scrambles
 {
@@ -29,13 +25,13 @@ namespace TimerLibrary.Scrambles
             List<Move> moveList = new List<Move>(moveNumber);
 
             int i = moveNumber;
-            Move prevMove = Move.getRandomMove(rowsAtOnce);
+            Move prevMove = Move.GetRandomMove(rowsAtOnce);
             moveList.Add(prevMove);
             --i;
-            while(i != 0)
+            while (i != 0)
             {
-                Move nextMove = Move.getRandomMove(rowsAtOnce);
-                if(nextMove.ToStringRepresentation() != prevMove.ToStringRepresentation())
+                Move nextMove = Move.GetRandomMove(rowsAtOnce);
+                if (nextMove.ToStringRepresentation() != prevMove.ToStringRepresentation())
                 {
                     moveList.Add(nextMove);
                     prevMove = nextMove;
