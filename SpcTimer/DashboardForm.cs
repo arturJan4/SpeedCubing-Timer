@@ -131,8 +131,6 @@ namespace SpcTimer
             }
             string parsed = selectedItem.Split('[', ']')[1];
             controller.DeleteStatisticsById(int.Parse(parsed));
-            
-            StatisticsListBox.Items.Remove(StatisticsListBox.SelectedItem);
         }
         public void DeleteAllStatistics()
         {
@@ -160,6 +158,16 @@ namespace SpcTimer
                 MessageBox.Show(message, caption);
                 return;
             }
+            const string message2 = "Do you want to delete last solve?";
+            const string caption2 = "Confirmation";
+            var result = MessageBox.Show(message2, caption2,
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
             controller.DeleteLast();
             controller.UpdateStatistics();
             StatisticsListBox.Items.RemoveAt(StatisticsListBox.Items.Count - 1);
@@ -167,6 +175,10 @@ namespace SpcTimer
         public void AddStatistics(string item)
         {
             StatisticsListBox.Items.Add(item);
+        }
+        public void GoToLastStatistics()
+        {
+            StatisticsListBox.SelectedIndex = StatisticsListBox.Items.Count - 1;
         }
         public void ClearStatisticsBox()
         {
@@ -206,7 +218,6 @@ namespace SpcTimer
         private void ConfirmInspectionButton_Click(object sender, EventArgs e)
         {
             int inspectionTimeValue = 0;
-            //TODO fail parse?
             int.TryParse(InspectionTimeLabel.Text, out inspectionTimeValue);
             controller.InspectionTime = inspectionTimeValue;
         }
@@ -216,6 +227,13 @@ namespace SpcTimer
         }
         private void SetDNFButton_Click(object sender, EventArgs e)
         {
+            if (StatisticsListBox.Items.Count == 0)
+            {
+                const string message2 = "No solve to mark as diqualified";
+                const string caption2 = "Error";
+                MessageBox.Show(message2, caption2);
+                return;
+            }
             const string message = "Do you want to mark current solve as DNF";
             const string caption = "Confirmation";
             var result = MessageBox.Show(message, caption,
@@ -230,8 +248,8 @@ namespace SpcTimer
         }
         private void DeleteSelectedButton_Click(object sender, EventArgs e)
         {
-            ClearStatisticsBox();
             DeleteSelectedStatistics(selectedItem);
+            ClearStatisticsBox();
             controller.UpdateStatistics();
         }
         private void DeleteLastButton_Click(object sender, EventArgs e)
@@ -291,6 +309,7 @@ namespace SpcTimer
             }
             
         }
+
         #endregion
     }
 }

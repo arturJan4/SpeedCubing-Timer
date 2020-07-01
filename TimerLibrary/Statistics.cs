@@ -32,6 +32,7 @@ namespace TimerLibrary
             solves = solves.FindAll(x => (x.IsDNF == false));
             // TODO - how to calculate BO if there is DNF?
             //orderedSolves = solves.OrderBy(x => x.SolveTime).ToList();
+            ClearStatistics();
             Recalculate();
         }
         

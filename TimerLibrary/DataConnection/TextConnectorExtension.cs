@@ -44,14 +44,20 @@ namespace TimerLibrary.DataConnection.Extensions
             {
                 string[] cols = l.Split(',');
                 Solve sol = new Solve();
-                // TODO - exception handling
                 // TODO - make new load from file constructor instead?
-                sol.Id = int.Parse(cols[0]);
-                sol.SolveTime = long.Parse(cols[1]);
-                sol.Scramble = cols[2];
-                sol.IsDNF = bool.Parse(cols[3]);
-                sol.TypeOfCube = (CubeType)Enum.Parse(typeof(CubeType), cols[4]);
-                outList.Add(sol);
+                try
+                {
+                    sol.Id = int.Parse(cols[0]);
+                    sol.SolveTime = long.Parse(cols[1]);
+                    sol.Scramble = cols[2];
+                    sol.IsDNF = bool.Parse(cols[3]);
+                    sol.TypeOfCube = (CubeType)Enum.Parse(typeof(CubeType), cols[4]);
+                    outList.Add(sol);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine($"Parsing from text file - error {e}");
+                }
             }
             return outList;
         }

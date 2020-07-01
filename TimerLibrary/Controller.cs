@@ -38,10 +38,7 @@ namespace TimerLibrary
         int BeepNumber;
 
         public Solve tempSolve;
-        //TODO - solves awaiting for save (queue?)
         private Solve awaitingSolve;
-        //TODO - make variable
-        //TODO - strategy? statistics multiple instatances
         static List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO) , new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR)};
 
         private State state;
@@ -62,8 +59,7 @@ namespace TimerLibrary
             view.CubeTypeLabelInter = ($"{CubeTypeToLabel(currentCubeType)}");
 
             //load from text file
-            // TODO - strategy? statistics multiple instatances
-            GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
+            UpdateStatistics();
         }
 
         // keep as general as possible (controller pattern)
@@ -75,14 +71,6 @@ namespace TimerLibrary
                 case State.WAIT:
                     TimerClass.Instance.Reset();
                     TimerClass.Instance.Enable();
-
-                    //TODO - db connection
-                    if(awaitingSolve != null && awaitingSolve.IsDNF)
-                    {
-                        DeleteAllStatistics();
-                        SaveSolveList(GetStatistics(awaitingSolve.TypeOfCube).GetSolvesList());
-                        UpdateStatistics();
-                    }
 
                     break;
                 case State.INSPECT:
@@ -163,9 +151,7 @@ namespace TimerLibrary
                     BeepNumber = 0;
                 }
             }
-            // TODO check if inspection is over
-            view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");
-            
+            view.ClockTime = currentTime.ToString(@"hh\:mm\:ss\:ff");   
         }
         private static State GetNextState(State state)
         {
@@ -202,14 +188,6 @@ namespace TimerLibrary
                 c.SaveSolveListToDb(solveList);
             }
         }
-        public void SaveQueued()
-        {
-            //TODO - add queue
-            if(awaitingSolve != null)
-            {
-                SaveSolve(awaitingSolve);
-            }
-        }
         public void ChangeCubeType(CubeType newCubeType)
         {
             currentCubeType = newCubeType;
@@ -231,8 +209,17 @@ namespace TimerLibrary
             if(state == State.WAIT && awaitingSolve != null)
             {
                 awaitingSolve.IsDNF = true;
+                
                 view.DNF = "DNF";
+                DeleteAllStatistics();
+                List<Solve> newList = GetStatistics(awaitingSolve.TypeOfCube).GetSolvesList();
+                newList.RemoveAt(newList.Count - 1);
+                newList.Add(awaitingSolve);
+
+                SaveSolveList(newList);
+                UpdateStatistics();
             }
+
         }
         public void DeleteAllStatistics()
         {
@@ -240,6 +227,7 @@ namespace TimerLibrary
             {
                 c.DeleteAll();
             }
+            GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
         }
         public void DeleteStatisticsById(int id)
         {
@@ -247,6 +235,8 @@ namespace TimerLibrary
             {
                 c.DeleteById(id);
             }
+            GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
+
         }
         public void DeleteLast()
         {
@@ -254,10 +244,13 @@ namespace TimerLibrary
             {
                 c.DeleteLast();
             }
+            GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
+
         }
         public void UpdateStatistics()
         {
             GetStatistics(currentCubeType).InitializeViewStatistics(view, HowManyRowsVisible);
+            view.GoToLastStatistics();
         }
 
         #endregion

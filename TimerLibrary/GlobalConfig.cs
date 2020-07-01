@@ -24,7 +24,6 @@ namespace TimerLibrary
 
             if (textFileOpen)
             {
-                //TODO - implement text file connection
                 TextConnect text = new TextConnect();
                 ConnectionsList.Add(text);
             }

@@ -16,10 +16,9 @@ namespace SpcTimer
         //TODO proper setter and getters and encapsulation
         //TODO more tests
         //TODO mock tests?
-        //TODO scale form
+        //TODO scale form better
         //TODO visualizer
-        //TODO statistics dependant on cubeType
-        //TODO user DNF button
+        //TODO optimization
         static void Main()
         {
             Application.EnableVisualStyles();

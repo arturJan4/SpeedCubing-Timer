@@ -30,6 +30,7 @@ namespace TimerLibrary
         void SetBackgroundColor(Color color);
         
         void AddStatistics(string item);
+        void GoToLastStatistics();
         void ClearStatisticsBox();
         void DeleteLastStatistics();
         void DeleteSelectedStatistics(string selectedItem);

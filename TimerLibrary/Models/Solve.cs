@@ -43,7 +43,6 @@ namespace TimerLibrary
         /// <param name="cubeType">Enum Type (TWO|THREE|FOUR), meaning 2x2, 3x3, 4x4 cubes.</param>
         public Solve(CubeType cubeType)
         {
-            // TODO - solve compatibility and scalability issues
             Scramble = (new Scramble(CubeTypeToStrategy(cubeType))).Representation;
             SolveTime = 0;
             IsDNF = false;
