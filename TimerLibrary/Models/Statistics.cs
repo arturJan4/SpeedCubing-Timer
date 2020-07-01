@@ -20,7 +20,7 @@ namespace TimerLibrary
         public long BO12 = -1;
         public long Sum = -1;
         public int Count = 0;
-        readonly CubeType TypeOfCube;
+        private readonly CubeType TypeOfCube;
         /// <summary>
         /// Constructs a class given a cube type.
         /// </summary>
@@ -106,7 +106,9 @@ namespace TimerLibrary
         public void Recalculate()
         {
             if (solves.Count == 0)
+            {
                 return;
+            }
 
             Count = solves.Count;
             long sum = 0;
@@ -146,7 +148,10 @@ namespace TimerLibrary
         private long BestOfCalculate(int howMany)
         {
             if (Count < howMany)
+            {
                 return -1;
+            }
+
             long sum = 0;
             long max = solves[Count - howMany].SolveTime;
             long min = solves[Count - howMany].SolveTime;

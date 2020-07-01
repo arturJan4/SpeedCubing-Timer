@@ -12,7 +12,7 @@ namespace TimerLibrary.Scrambles
         /// <summary>
         /// Allows dynamic choosing of a scrambling algorithm.
         /// </summary>
-        private IGenerateScrambleInterface GenerateInterface;
+        private readonly IGenerateScrambleInterface GenerateInterface;
         /// <summary>
         /// List of Moves generated from scrambling algorithm.
         /// </summary>

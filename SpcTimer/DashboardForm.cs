@@ -7,7 +7,7 @@ namespace SpcTimer
 {
     public partial class DashboardForm : Form, IViewInterface
     {
-        Controller controller;
+        private Controller controller;
         public DashboardForm()
         {
             InitializeComponent();
@@ -36,67 +36,67 @@ namespace SpcTimer
         #region Labels
         public string ClockTime
         {
-            get { return ClockLabel.Text; }
-            set { this.ClockLabel.Text = value; }
+            get => ClockLabel.Text;
+            set => ClockLabel.Text = value;
         }
         public string Scramble
         {
-            get { return ScrambleLabel.Text; }
-            set { this.ScrambleLabel.Text = value; }
+            get => ScrambleLabel.Text;
+            set => ScrambleLabel.Text = value;
         }
         public string DNF
         {
-            get { return DNFLabel.Text; }
-            set { this.DNFLabel.Text = value; }
+            get => DNFLabel.Text;
+            set => DNFLabel.Text = value;
         }
         public string CubeTypeLabelInter
         {
-            get { return CubeTypeLabel.Text; }
-            set { this.CubeTypeLabel.Text = value; }
+            get => CubeTypeLabel.Text;
+            set => CubeTypeLabel.Text = value;
         }
         public string BestValue
         {
-            get { return BestValueLabel.Text; }
+            get => BestValueLabel.Text;
             set
             {
                 BestValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.BestValueLabel.Text = value;
+                BestValueLabel.Text = value;
             }
         }
         public string WorstValue
         {
-            get { return WorstValueLabel.Text; }
+            get => WorstValueLabel.Text;
             set
             {
                 WorstValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.WorstValueLabel.Text = value;
+                WorstValueLabel.Text = value;
             }
         }
         public string AverageValue
         {
-            get { return AverageValueLabel.Text; }
+            get => AverageValueLabel.Text;
             set
             {
                 AverageValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.AverageValueLabel.Text = value;
+                AverageValueLabel.Text = value;
             }
         }
         public string Bo5Value
         {
-            get { return Bo5ValueLabel.Text; }
+            get => Bo5ValueLabel.Text;
             set
             {
                 Bo5ValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.Bo5ValueLabel.Text = value;
+                Bo5ValueLabel.Text = value;
             }
         }
         public string Bo12Value
         {
-            get { return Bo12ValueLabel.Text; }
+            get => Bo12ValueLabel.Text;
             set
             {
                 Bo12ValueLabel.ForeColor = (value == "00:00:00:00") ? Color.Gray : Color.White;
-                this.Bo12ValueLabel.Text = value;
+                Bo12ValueLabel.Text = value;
             }
         }
         #endregion
@@ -132,7 +132,7 @@ namespace SpcTimer
         {
             const string message = "Do you want to delete all solves (of all cube types)?";
             const string caption = "Confirmation";
-            var result = MessageBox.Show(message, caption,
+            DialogResult result = MessageBox.Show(message, caption,
                                          MessageBoxButtons.YesNo,
                                          MessageBoxIcon.Question);
 
@@ -156,7 +156,7 @@ namespace SpcTimer
             }
             const string message2 = "Do you want to delete last solve?";
             const string caption2 = "Confirmation";
-            var result = MessageBox.Show(message2, caption2,
+            DialogResult result = MessageBox.Show(message2, caption2,
                                          MessageBoxButtons.YesNo,
                                          MessageBoxIcon.Question);
 
@@ -231,7 +231,7 @@ namespace SpcTimer
             }
             const string message = "Do you want to mark current solve as DNF";
             const string caption = "Confirmation";
-            var result = MessageBox.Show(message, caption,
+            DialogResult result = MessageBox.Show(message, caption,
                                          MessageBoxButtons.YesNo,
                                          MessageBoxIcon.Question);
 

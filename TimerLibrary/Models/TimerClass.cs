@@ -25,8 +25,8 @@ namespace TimerLibrary
                 return SingletonInstance;
             }
         }
-        private Boolean isEnabled = false;
-        private Stopwatch stopwatch = new Stopwatch();
+        private bool isEnabled = false;
+        private readonly Stopwatch stopwatch = new Stopwatch();
 
         /// <summary>
         /// Stops measuring time, resets the time to zero.
@@ -64,7 +64,7 @@ namespace TimerLibrary
         /// Checks if Timer is currently counting.
         /// </summary>
         /// <returns>True if Timer is currently counting, otherwise False</returns>
-        public Boolean isWorking()
+        public bool isWorking()
         {
             return isEnabled;
         }

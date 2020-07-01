@@ -3,12 +3,13 @@ using System.Windows.Forms;
 
 namespace SpcTimer
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        private
         //TODO proper setter and getters and encapsulation
         //TODO more tests
         //TODO mock tests?

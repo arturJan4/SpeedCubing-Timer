@@ -21,7 +21,7 @@ namespace TimerLibrary.DataConnection.Extensions
         }
         public static string OverrideFile(this string filepath)
         {
-            File.WriteAllText(filepath, String.Empty);
+            File.WriteAllText(filepath, string.Empty);
             return filepath;
         }
         public static List<string> LoadFile(this string filepath)

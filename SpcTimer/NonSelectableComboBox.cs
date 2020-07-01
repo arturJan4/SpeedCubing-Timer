@@ -2,7 +2,7 @@
 
 namespace SpcTimer
 {
-    class NonSelectableComboBox : ComboBox
+    internal class NonSelectableComboBox : ComboBox
     {
         public NonSelectableComboBox()
         {

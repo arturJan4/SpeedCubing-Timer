@@ -34,7 +34,9 @@ namespace TimerLibrary
         public static Move GetRandomMove(uint rowsAtOnce)
         {
             if (rowsAtOnce == 0)
+            {
                 throw new ArgumentOutOfRangeException("RowsAtOnce has to be positive");
+            }
 
             Random rand = new Random();
             Array possibleMoves = Enum.GetValues(typeof(MoveType));
@@ -85,9 +87,14 @@ namespace TimerLibrary
         public Move(MoveType moveType, uint rowsAtOnce, bool isDouble, bool isAnticlockwise)
         {
             if (rowsAtOnce == 0)
+            {
                 throw new ArgumentOutOfRangeException("rowsAtOnce has to be positive");
+            }
+
             if (isDouble && isAnticlockwise)
+            {
                 throw new ArgumentException("Move by 180 degrees has to be specified either clockwise or anticlockwise");
+            }
 
             TypeOfMove = moveType;
             RowsAtOnce = rowsAtOnce;

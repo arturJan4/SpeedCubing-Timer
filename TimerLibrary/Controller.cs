@@ -32,13 +32,12 @@ namespace TimerLibrary
 
         public string DirName;              // Path to .exe directory
         public Sound SoundControl;
-        int BeepNumber;                     //which beep is it (for inspection urging user to start)
+        private int BeepNumber;                     //which beep is it (for inspection urging user to start)
 
         public Solve tempSolve;             //currently processed solve
         private Solve awaitingSolve;        //previous solve (for changing last solve when user selects DNF)
-        static readonly List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO), new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR) };
-
-        const int HowManyRowsVisible = 200; // How many rows should be visible in a Statistics box at once
+        private static readonly List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO), new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR) };
+        private const int HowManyRowsVisible = 200; // How many rows should be visible in a Statistics box at once
 
         private State state;
         private CubeType currentCubeType;
@@ -190,7 +189,7 @@ namespace TimerLibrary
         /// Saves solve to all databases.
         /// </summary>
         /// <param name="solve"></param>
-        static private void SaveSolve(Solve solve)
+        private static void SaveSolve(Solve solve)
         {
             foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
@@ -201,7 +200,7 @@ namespace TimerLibrary
         /// Saves a list of solves to all databases.
         /// </summary>
         /// <param name="solveList"></param>
-        static private void SaveSolveList(List<Solve> solveList)
+        private static void SaveSolveList(List<Solve> solveList)
         {
             foreach (DataConnection.IDataConnect c in GlobalConfig.ConnectionsList)
             {
@@ -324,7 +323,7 @@ namespace TimerLibrary
         {
             return TimerClass.Instance.GetTime();
         }
-        static private string CubeTypeToLabel(CubeType cubetype)
+        private static string CubeTypeToLabel(CubeType cubetype)
         {
             switch (cubetype)
             {
@@ -342,7 +341,7 @@ namespace TimerLibrary
                     break;
             }
         }
-        static private Statistics GetStatistics(CubeType cubetype)
+        private static Statistics GetStatistics(CubeType cubetype)
         {
             switch (cubetype)
             {
