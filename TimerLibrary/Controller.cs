@@ -31,18 +31,18 @@ namespace TimerLibrary
         #region Variables
         public int InspectionTime { get; set; } = 15; // Inspection Time in seconds
 
-        public string DirName;              // Path to .exe directory
+        public string DirName;                        // Path to .exe directory
         public Sound SoundControl;
-        private int BeepNumber;                     //which beep is it (for inspection urging user to start)
+        private int BeepNumber;                       //which beep is it (for inspection urging user to start)
 
-        public Solve tempSolve;             //currently processed solve
-        private Solve awaitingSolve;        //previous solve (for changing last solve when user selects DNF)
+        public Solve tempSolve;                       //currently processed solve
+        private Solve awaitingSolve;                  //previous solve (for changing last solve when user selects DNF)
         private static readonly List<Statistics> statistics = new List<Statistics> { new Statistics(CubeType.TWO), new Statistics(CubeType.THREE), new Statistics(CubeType.FOUR) };
-        private const int HowManyRowsVisible = 200; // How many rows should be visible in a Statistics box at once
+        private const int HowManyRowsVisible = 200;   // How many rows should be visible in a Statistics box at once
 
         private State state;
         private CubeType currentCubeType;
-        private readonly IViewInterface view;        // view interface between controller and form
+        private readonly IViewInterface view;         // view interface between controller and form
         #endregion
         public Controller(IViewInterface view)
         {

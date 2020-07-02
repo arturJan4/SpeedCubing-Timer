@@ -11,7 +11,7 @@ namespace TimerLibrary
         private readonly string DirName;                         //path to folder where the sounds are located
         private readonly bool loadedFiles;                       //true if all files loaded successfully
         private static SoundPlayer InspectionStartSound;
-        private static SoundPlayer InspectionEndSound;          //urges user to start solving
+        private static SoundPlayer InspectionEndSound;           //urges user to start solving
         private static SoundPlayer SolveEndSound;
         public bool PlaySounds { get; set; }            //audio control, if true then play sounds
 

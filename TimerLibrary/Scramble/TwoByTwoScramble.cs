@@ -2,6 +2,11 @@
 
 namespace TimerLibrary.Scrambles
 {
+    /// <summary>
+    /// Generates a random 2x2 scramble, 
+    /// non-repeating sequence of moves, separated with spaces. 
+    /// Doesn't use D or L moves. 
+    /// </summary>
     public class TwoByTwoScramble : IGenerateScrambleInterface
     {
         /// <summary>

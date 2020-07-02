@@ -2,6 +2,10 @@
 
 namespace TimerLibrary.Scrambles
 {
+    /// <summary>
+    /// Generates a random 4x4 scramble, 
+    /// non-repeating sequence of moves, separated with spaces, indcudes back moves
+    /// </summary>
     public class FourByFourScramble : IGenerateScrambleInterface
     {
         private enum MoveType
