@@ -6,10 +6,12 @@ namespace SpcTimer
 {
     internal static class Program
     {
-        //TODO proper setter and getters and encapsulation
-        //TODO more tests
-        //TODO mock tests?
-        //TODO optimization
+        //TODO - more tests
+        //TODO - mock tests
+        //TODO - optimization
+        //TODO - graphical representation
+        //TODO - plotting time
+        //TODO - user-changes in UI
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -28,12 +30,20 @@ namespace SpcTimer
 
             Application.Run(new DashboardForm());
         }
-
+        /// <summary>
+        /// Temporary workaround for annoying exception handling errors.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             
         }
-
+        /// <summary>
+        /// Temporary workaround for annoying exception handling errors.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             

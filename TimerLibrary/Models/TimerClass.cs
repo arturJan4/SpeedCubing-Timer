@@ -64,7 +64,7 @@ namespace TimerLibrary
         /// Checks if Timer is currently counting.
         /// </summary>
         /// <returns>True if Timer is currently counting, otherwise False</returns>
-        public bool isWorking()
+        public bool IsWorking()
         {
             return isEnabled;
         }

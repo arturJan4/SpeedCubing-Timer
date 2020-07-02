@@ -4,7 +4,7 @@ namespace TimerLibrary.Scrambles
 {
     public class ThreeByThreeScramble : IGenerateScrambleInterface
     {
-        // TODO - check for more stuff
+        // TODO - check for more stuff (ex. whether user can solve in less than 3 moves).
         /// <summary>
         /// Generates a random 3x3 scramble, 
         /// non-repeating sequence of moves, separated with spaces,

@@ -11,19 +11,32 @@ namespace TimerLibrary.DataConnection.Extensions
     /// </summary>
     public static class TextConnectorExtension
     {
-        // TODO - extension method
-        // TODO - comment
+        /// <summary>
+        /// Gets Full file path from app.config
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
         public static string FilePath(this string filepath)
         {
             //TODO - App.config link
             //return $"{ ConfigurationManager.AppSettings["filePath"] }\\{ filepath }";
             return $"{ filepath }";
         }
+        /// <summary>
+        /// Overrided a file at a given filepath
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
         public static string OverrideFile(this string filepath)
         {
             File.WriteAllText(filepath, string.Empty);
             return filepath;
         }
+        /// <summary>
+        /// Loads a file
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns>List of lines of a file</returns>
         public static List<string> LoadFile(this string filepath)
         {
             if (!File.Exists(filepath))
@@ -33,6 +46,11 @@ namespace TimerLibrary.DataConnection.Extensions
 
             return File.ReadAllLines(filepath).ToList();
         }
+        /// <summary>
+        /// Converts from .csv format to a list of solves
+        /// </summary>
+        /// <param name="lines">lines of a program</param>
+        /// <returns></returns>
         public static List<Solve> ConvertToSolves(this List<string> lines)
         {
             List<Solve> outList = new List<Solve>();
@@ -40,7 +58,6 @@ namespace TimerLibrary.DataConnection.Extensions
             {
                 string[] cols = l.Split(',');
                 Solve sol = new Solve();
-                // TODO - make new load from file constructor instead?
                 try
                 {
                     sol.Id = int.Parse(cols[0]);
@@ -57,6 +74,11 @@ namespace TimerLibrary.DataConnection.Extensions
             }
             return outList;
         }
+        /// <summary>
+        /// Saves a list of solves to  a file
+        /// </summary>
+        /// <param name="solves"></param>
+        /// <param name="filepath"></param>
         public static void SaveToSolveFile(this List<Solve> solves, string filepath)
         {
             List<string> lines = new List<string>();

@@ -145,7 +145,7 @@
             this.tableLayoutPanel1.SetRowSpan(this.StatisticsListBox, 5);
             this.StatisticsListBox.ScrollAlwaysVisible = true;
             this.StatisticsListBox.Size = new System.Drawing.Size(205, 225);
-            this.StatisticsListBox.TabIndex = 7;
+            this.StatisticsListBox.TabIndex = 20;
             this.StatisticsListBox.TabStop = false;
             this.StatisticsListBox.SelectedIndexChanged += new System.EventHandler(this.StatisticsListBox_SelectedIndexChanged);
             // 

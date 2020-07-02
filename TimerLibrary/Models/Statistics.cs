@@ -10,7 +10,7 @@ namespace TimerLibrary
     /// </summary>
     public class Statistics
     {
-        // TODO smarter seperation
+        // TODO - smarter seperation
         private List<Solve> solves = new List<Solve>();
         //private List<Solve> orderedSolves = new List<Solve>();
         public long Best = -1;
@@ -93,7 +93,7 @@ namespace TimerLibrary
             solves = GlobalConfig.ConnectionsList[0].LoadSolvesFromDB();
             solves = solves.FindAll(x => (x.TypeOfCube == TypeOfCube));
             solves = solves.FindAll(x => (x.IsDNF == false));
-            // TODO - how to calculate BO if there is DNF?
+            // TODO - how to calculate BO if there is DNF (regulation dependent)?
             //orderedSolves = solves.OrderBy(x => x.SolveTime).ToList();
             ClearStatistics();
             Recalculate();
