@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['id_46',['Id',['../class_timer_library_1_1_solve.html#a9e9aed2fb3333dd18c60d31b692c9af4',1,'TimerLibrary::Solve']]],
+  ['idataconnect_47',['IDataConnect',['../interface_timer_library_1_1_data_connection_1_1_i_data_connect.html',1,'TimerLibrary::DataConnection']]],
+  ['idataconnect_2ecs_48',['IDataConnect.cs',['../_i_data_connect_8cs.html',1,'']]],
+  ['igeneratescrambleinterface_49',['IGenerateScrambleInterface',['../interface_timer_library_1_1_scrambles_1_1_i_generate_scramble_interface.html',1,'TimerLibrary::Scrambles']]],
+  ['igeneratescrambleinterface_2ecs_50',['IGenerateScrambleInterface.cs',['../_i_generate_scramble_interface_8cs.html',1,'']]],
+  ['initializeviewstatistics_51',['InitializeViewStatistics',['../class_timer_library_1_1_statistics.html#a325f961afd36dcee09d1a662f011d81a',1,'TimerLibrary::Statistics']]],
+  ['inspect_52',['INSPECT',['../class_timer_library_1_1_controller.html#a23bf0c34196cbde0ab4c4917dd3baafbaee827ef8789386ee51926bd7b7873a85',1,'TimerLibrary::Controller']]],
+  ['inspectiontime_53',['InspectionTime',['../class_timer_library_1_1_controller.html#ad64ba9f8fec902cfdc4165d329f2693d',1,'TimerLibrary::Controller']]],
+  ['instance_54',['Instance',['../class_timer_library_1_1_timer_class.html#ad070ca7b081936cc72c60ae838ef1487',1,'TimerLibrary::TimerClass']]],
+  ['isanticlockwise_55',['IsAnticlockwise',['../class_timer_library_1_1_move.html#a34c5514410556f6f2d27a03d9eaa9a3c',1,'TimerLibrary::Move']]],
+  ['isdnf_56',['IsDNF',['../class_timer_library_1_1_solve.html#ab971de8ba563b9706da54a55fd1b9dcb',1,'TimerLibrary::Solve']]],
+  ['isdouble_57',['IsDouble',['../class_timer_library_1_1_move.html#a6114e924b266e295880aaaa98080b3b1',1,'TimerLibrary::Move']]],
+  ['isinspecting_58',['IsInspecting',['../class_timer_library_1_1_controller.html#a62bf2b235139e7b170b57befb28532b1',1,'TimerLibrary::Controller']]],
+  ['issolving_59',['IsSolving',['../class_timer_library_1_1_controller.html#acb25d03df953aae5f045522a7ebeca28',1,'TimerLibrary::Controller']]],
+  ['iswating_60',['IsWating',['../class_timer_library_1_1_controller.html#ac13c15a73d9b81988af6318cd245eec7',1,'TimerLibrary::Controller']]],
+  ['isworking_61',['IsWorking',['../class_timer_library_1_1_timer_class.html#aed2b1c5745c3142d72619b9eefd96613',1,'TimerLibrary::TimerClass']]],
+  ['iviewinterface_62',['IViewInterface',['../interface_timer_library_1_1_i_view_interface.html',1,'TimerLibrary']]],
+  ['iviewinterface_2ecs_63',['IViewInterface.cs',['../_i_view_interface_8cs.html',1,'']]]
+];
