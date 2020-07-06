@@ -23,7 +23,7 @@ namespace TimerLibrary.Scrambles
 
             int i = moveNumber;
             Move prevMove = Move.GetRandomMove(rowsAtOnce);
-            while (!valid(prevMove))
+            while (!Valid(prevMove))
             {
                 prevMove = Move.GetRandomMove(rowsAtOnce);
             }
@@ -32,7 +32,7 @@ namespace TimerLibrary.Scrambles
             while (i != 0)
             {
                 Move nextMove = Move.GetRandomMove(rowsAtOnce);
-                while (!valid(nextMove))
+                while (!Valid(nextMove))
                 {
                     nextMove = Move.GetRandomMove(rowsAtOnce);
                 }
@@ -51,7 +51,7 @@ namespace TimerLibrary.Scrambles
         /// </summary>
         /// <param name="move"></param>
         /// <returns></returns>
-        private bool valid(Move move)
+        private bool Valid(Move move)
         {
             if (move.TypeOfMove == MoveType.D ||
                 move.TypeOfMove == MoveType.L)

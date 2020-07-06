@@ -33,7 +33,7 @@ namespace TimerLibrary.Scrambles
         public Scramble(IGenerateScrambleInterface strategy)
         {
             GenerateInterface = strategy;
-            Moves = strategy.GenerateScramble();
+            Moves = GenerateInterface.GenerateScramble();
 
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < Moves.Count; ++i)
