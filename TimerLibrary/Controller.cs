@@ -59,8 +59,6 @@ namespace TimerLibrary
             };
 
             view.CubeTypeLabelInter = ($"{CubeTypeToLabel(currentCubeType)}");
-
-            UpdateStatistics();                  // load from text file and update
         }
 
         #region MainStateMachine

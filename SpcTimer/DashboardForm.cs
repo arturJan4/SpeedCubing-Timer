@@ -32,7 +32,7 @@ namespace SpcTimer
             Scramble newScramble = new Scramble(new ThreeByThreeScramble());
             LabelTest.Text = newScramble.Representation;
             */
-
+            controller.UpdateStatistics();      // load from text file and update
         }
         /// <summary>
         /// Links the controller to the current form.
