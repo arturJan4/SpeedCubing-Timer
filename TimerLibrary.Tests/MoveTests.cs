@@ -7,7 +7,7 @@ namespace TimerLibrary.Tests
         [Theory]
         [InlineData(MoveType.L, 1, false, false)]
         [InlineData(MoveType.F, 2, false, true)]
-        public void ctr_ShouldCreate(MoveType moveExp, uint rowsExp, bool doubleExp, bool antiClockwiseExp)
+        public void Ctr_ShouldCreate(MoveType moveExp, uint rowsExp, bool doubleExp, bool antiClockwiseExp)
         {
             //Arrange
 
